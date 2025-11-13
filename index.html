@@ -159,14 +159,28 @@
             border-radius: 3px;
             border: 1px solid #e5e7eb;
         }
+
+        .data-status {
+            background: #dcfce7;
+            border: 1px solid #22c55e;
+            padding: 8px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 12px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header class="header">
             <h1>Єдиний реєстр досудових розслідувань</h1>
-            <p>Захищена система з персоналом</p>
+            <p>Дані зберігаються локально</p>
         </header>
+
+        <div class="data-status" id="dataStatus">
+            💾 Дані зберігаються в браузері. Не видаляйте історію браузера!
+        </div>
 
         <div class="grid">
             <main>
@@ -175,6 +189,7 @@
                     <div class="search-box">
                         <input type="text" id="searchInput" placeholder="Пошук...">
                         <button class="btn btn-primary" onclick="searchCases()">Пошук</button>
+                        <button class="btn" onclick="clearSearch()">Очистити</button>
                     </div>
                     <div id="casesList">
                         <!-- Справи будуть тут -->
@@ -213,12 +228,22 @@
                         2. Введіть службове ПІБ<br>
                         3. Використовуйте службовий пароль
                     </div>
+
+                    <div style="margin-top: 10px; padding: 8px; background: #fef3c7; border-radius: 5px; font-size: 11px;">
+                        <strong>💡 Порада:</strong> Не очищайте історію браузера, щоб не втратити дані
+                    </div>
                 </section>
 
                 <section class="card" id="userSection" style="display: none;">
                     <h3>👤 Користувач</h3>
                     <div id="userDetails"></div>
-                    <button class="btn btn-success" onclick="addCase()" style="width: 100%; margin: 10px 0;">➕ Додати справу</button>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 8px; margin: 15px 0;">
+                        <button class="btn btn-success" onclick="addCase()">➕ Додати справу</button>
+                        <button class="btn btn-primary" onclick="backupData()">💾 Резервна копія</button>
+                        <button class="btn" onclick="showStats()">📊 Статистика</button>
+                    </div>
+                    
                     <button class="btn btn-danger" onclick="logout()" style="width: 100%;">Вийти</button>
                 </section>
             </aside>
@@ -304,19 +329,145 @@
             prosecutor: ['PROC1', 'PROC2', 'PROC3', 'PROC4', 'PROC5']
         };
 
-        // БАЗА ДАННЫХ
+        // БАЗА ДАННЫХ С АВТОСОХРАНЕНИЕМ
         const DB = {
+            // Получить дела для органа
             getCases: (agency) => {
-                return JSON.parse(localStorage.getItem(`cases_${agency}`) || '[]');
+                try {
+                    const data = localStorage.getItem(`erdr_cases_${agency}`);
+                    if (!data) {
+                        // Если данных нет - создаем начальные данные
+                        const initialData = this.getInitialData(agency);
+                        this.saveCases(agency, initialData);
+                        return initialData;
+                    }
+                    return JSON.parse(data);
+                } catch (e) {
+                    console.error('Помилка завантаження даних:', e);
+                    return this.getInitialData(agency);
+                }
             },
+
+            // Сохранить дела
             saveCases: (agency, cases) => {
-                localStorage.setItem(`cases_${agency}`, JSON.stringify(cases));
+                try {
+                    localStorage.setItem(`erdr_cases_${agency}`, JSON.stringify(cases));
+                    localStorage.setItem('erdr_last_save', new Date().toISOString());
+                    this.updateDataStatus();
+                    return true;
+                } catch (e) {
+                    console.error('Помилка збереження даних:', e);
+                    alert('❌ Помилка збереження даних!');
+                    return false;
+                }
             },
+
+            // Начальные данные для каждого органа
+            getInitialData: (agency) => {
+                const baseData = {
+                    sbu: [
+                        {
+                            id: '1',
+                            number: '001/2024',
+                            date: '2024-01-15',
+                            type: 'Кримінальне правопорушення',
+                            status: 'В розслідуванні',
+                            description: 'Розслідування корупційних дій у державному органі',
+                            investigator: 'Іванов І.І.',
+                            assignedJudge: 'Петренко П.П.',
+                            assignedProsecutor: 'Сидоров С.С.',
+                            investigationHead: 'Коваленко К.К.',
+                            created: new Date().toISOString()
+                        }
+                    ],
+                    npu: [
+                        {
+                            id: '2',
+                            number: '002/2024',
+                            date: '2024-01-20',
+                            type: 'Кіберзлочинність',
+                            status: 'В розслідуванні',
+                            description: 'Розслідування кібератаки на банківську систему',
+                            investigator: 'Петров П.П.',
+                            assignedJudge: 'Ковальчук К.К.',
+                            assignedProsecutor: 'Мельник М.М.',
+                            created: new Date().toISOString()
+                        }
+                    ],
+                    prosecutor: [
+                        {
+                            id: '3',
+                            number: '003/2024',
+                            date: '2024-01-25',
+                            type: 'Корупційний злочин',
+                            status: 'Завершена',
+                            description: 'Зловживання службовим становищем',
+                            investigator: 'Сидоров С.С.',
+                            assignedJudge: 'Шевченко Ш.Ш.',
+                            investigationHead: 'Бондар Б.Б.',
+                            created: new Date().toISOString()
+                        }
+                    ]
+                };
+                return baseData[agency] || [];
+            },
+
+            // Безопасность
             getSecurity: () => {
-                return JSON.parse(localStorage.getItem('security') || '{"attempts":0,"blocked":false}');
+                return JSON.parse(localStorage.getItem('erdr_security') || '{"attempts":0,"blocked":false}');
             },
+            
             saveSecurity: (security) => {
-                localStorage.setItem('security', JSON.stringify(security));
+                localStorage.setItem('erdr_security', JSON.stringify(security));
+            },
+
+            // Статистика данных
+            getStats: () => {
+                const stats = {
+                    totalCases: 0,
+                    lastSave: localStorage.getItem('erdr_last_save'),
+                    agencies: {}
+                };
+
+                ['sbu', 'npu', 'prosecutor'].forEach(agency => {
+                    const cases = this.getCases(agency);
+                    stats.agencies[agency] = cases.length;
+                    stats.totalCases += cases.length;
+                });
+
+                return stats;
+            },
+
+            // Обновить статус данных
+            updateDataStatus: () => {
+                const stats = this.getStats();
+                const statusElement = document.getElementById('dataStatus');
+                if (statusElement) {
+                    statusElement.innerHTML = 
+                        `💾 Дані збережено: ${stats.totalCases} справ | ` +
+                        `СБУ: ${stats.agencies.sbu} | НПУ: ${stats.agencies.npu} | Прокуратура: ${stats.agencies.prosecutor}`;
+                }
+            },
+
+            // Резервное копирование
+            backupData: () => {
+                const backup = {
+                    timestamp: new Date().toISOString(),
+                    sbu: this.getCases('sbu'),
+                    npu: this.getCases('npu'),
+                    prosecutor: this.getCases('prosecutor')
+                };
+                
+                const dataStr = JSON.stringify(backup, null, 2);
+                const blob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `erdr_backup_${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                return `Резервну копію збережено: ${backup.sbu.length + backup.npu.length + backup.prosecutor.length} справ`;
             }
         };
 
@@ -333,6 +484,16 @@
             } else {
                 updateSecurityWarning();
             }
+            
+            // Обновляем статус данных
+            DB.updateDataStatus();
+            
+            // Автосохранение каждые 30 секунд
+            setInterval(() => {
+                if (currentUser) {
+                    DB.updateDataStatus();
+                }
+            }, 30000);
         }
 
         // ФУНКЦИЯ ВХОДА С ЗАЩИТОЙ
@@ -372,7 +533,6 @@
                 updateUI();
                 loadCases();
                 document.getElementById('securityWarning').style.display = 'none';
-                alert('✅ Успішний вхід!');
                 
             } else {
                 // НЕУДАЧНАЯ ПОПЫТКА
@@ -488,6 +648,7 @@
             });
             
             container.innerHTML = html;
+            DB.updateDataStatus();
         }
 
         function addCase() {
@@ -522,16 +683,17 @@
                 assignedJudge: document.getElementById('assignedJudge').value.trim(),
                 assignedProsecutor: document.getElementById('assignedProsecutor').value.trim(),
                 investigationHead: document.getElementById('investigationHead').value.trim(),
-                additionalInvestigator: document.getElementById('additionalInvestigator').value.trim()
+                additionalInvestigator: document.getElementById('additionalInvestigator').value.trim(),
+                created: new Date().toISOString()
             };
 
             const cases = DB.getCases(currentUser.agency);
             cases.push(caseData);
-            DB.saveCases(currentUser.agency, cases);
             
-            closeModal();
-            loadCases();
-            alert('✅ Справу додано!');
+            if (DB.saveCases(currentUser.agency, cases)) {
+                closeModal();
+                loadCases();
+            }
         }
 
         function deleteCase(id) {
@@ -539,9 +701,10 @@
             
             const cases = DB.getCases(currentUser.agency);
             const newCases = cases.filter(c => c.id !== id);
-            DB.saveCases(currentUser.agency, newCases);
-            loadCases();
-            alert('✅ Справу видалено!');
+            
+            if (DB.saveCases(currentUser.agency, newCases)) {
+                loadCases();
+            }
         }
 
         function searchCases() {
@@ -565,28 +728,33 @@
             renderCases(filtered);
         }
 
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            if (currentUser) {
+                loadCases();
+            }
+        }
+
+        function backupData() {
+            const message = DB.backupData();
+            alert(`✅ ${message}`);
+        }
+
+        function showStats() {
+            const stats = DB.getStats();
+            alert(
+                `📊 Статистика системи:\n\n` +
+                `Всього справ: ${stats.totalCases}\n` +
+                `СБУ: ${stats.agencies.sbu} справ\n` +
+                `НПУ: ${stats.agencies.npu} справ\n` +
+                `Прокуратура: ${stats.agencies.prosecutor} справ\n` +
+                `Останнє збереження: ${stats.lastSave ? new Date(stats.lastSave).toLocaleString() : 'Немає'}`
+            );
+        }
+
         // ЗАГРУЗКА ПРИ СТАРТЕ
         document.addEventListener('DOMContentLoaded', function() {
             init();
-            
-            // ТЕСТОВЫЕ ДАННЫЕ
-            if (!localStorage.getItem('cases_sbu')) {
-                const testCases = [
-                    {
-                        id: '1',
-                        number: '001/2024',
-                        date: '2024-01-15',
-                        type: 'Кримінальне правопорушення',
-                        status: 'В розслідуванні',
-                        description: 'Розслідування корупційних дій у державному органі',
-                        investigator: 'Іванов І.І.',
-                        assignedJudge: 'Петренко П.П.',
-                        assignedProsecutor: 'Сидоров С.С.',
-                        investigationHead: 'Коваленко К.К.'
-                    }
-                ];
-                DB.saveCases('sbu', testCases);
-            }
         });
     </script>
 </body>
