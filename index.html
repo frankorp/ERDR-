@@ -167,23 +167,26 @@
             color: #991b1b;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+        .password-toggle {
+            position: relative;
         }
 
-        .stat-card {
-            text-align: center;
+        .password-toggle button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .user-info {
+            background: #f8fafc;
             padding: 15px;
-            border: 1px solid #e5e7eb;
             border-radius: 5px;
-        }
-
-        .stat-number {
-            font-size: 24px;
-            font-weight: bold;
-            color: #2563eb;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -192,7 +195,7 @@
         <!-- Header -->
         <header class="header">
             <h1>Єдиний реєстр досудових розслідувань</h1>
-            <p>Демо-версія системи</p>
+            <p>Захищена система з ізольованими базами даних</p>
         </header>
 
         <!-- Main Content -->
@@ -228,27 +231,35 @@
                     </div>
                     <div class="form-group">
                         <label>ПІБ співробітника:</label>
-                        <input type="text" id="userName" placeholder="Ваше ПІБ" value="Тестовий Користувач">
+                        <input type="text" id="userName" placeholder="Ваше ПІБ">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group password-toggle">
                         <label>Пароль:</label>
-                        <input type="password" id="password" placeholder="Пароль" value="123456">
+                        <input type="password" id="password" placeholder="Введіть пароль" style="padding-right: 40px;">
+                        <button type="button" onclick="togglePassword()">👁️</button>
                     </div>
                     <button class="btn btn-primary" onclick="login()" style="width: 100%;">Увійти</button>
                     
-                    <div style="margin-top: 15px; padding: 10px; background: #f3f4f6; border-radius: 5px; font-size: 12px;">
-                        <strong>Тестові дані:</strong><br>
-                        Пароль: 123456<br>
-                        Любой орган + любое ПІБ
+                    <div class="user-info" style="display: none;" id="loginHint">
+                        <strong>Інструкція:</strong><br>
+                        • Оберіть ваш орган<br>
+                        • Введіть ваші реальні дані<br>
+                        • Використовуйте службовий пароль
                     </div>
                 </section>
 
                 <!-- Actions -->
-                <section class="card">
+                <section class="card" id="actionsSection" style="display: none;">
                     <h3>🚀 Дії</h3>
                     <button class="btn btn-success" onclick="addCase()" style="width: 100%; margin: 5px 0;">➕ Додати справу</button>
-                    <button class="btn" onclick="addTestData()" style="width: 100%; margin: 5px 0;">🧪 Тестові дані</button>
-                    <button class="btn btn-danger" onclick="clearData()" style="width: 100%; margin: 5px 0;">🗑️ Очистити все</button>
+                    <button class="btn" onclick="generateReport()" style="width: 100%; margin: 5px 0;">📊 Звіт</button>
+                    <button class="btn btn-danger" onclick="logout()" style="width: 100%; margin: 5px 0;">🚪 Вийти</button>
+                </section>
+
+                <!-- User Info -->
+                <section class="card" id="userInfo" style="display: none;">
+                    <h3>👤 Поточний користувач</h3>
+                    <div id="userDetails"></div>
                 </section>
             </aside>
         </div>
@@ -273,6 +284,17 @@
                         <option value="Кримінальне">Кримінальне правопорушення</option>
                         <option value="Кіберзлочин">Кіберзлочинність</option>
                         <option value="Корупція">Корупційний злочин</option>
+                        <option value="Економічний">Економічний злочин</option>
+                        <option value="Тероризм">Тероризм</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Статус:</label>
+                    <select id="caseStatus" required>
+                        <option value="Нова">Нова</option>
+                        <option value="В розслідуванні">В розслідуванні</option>
+                        <option value="Завершена">Завершена</option>
+                        <option value="Призупинена">Призупинена</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -288,15 +310,51 @@
     </div>
 
     <script>
-        // Simple database using localStorage
+        // Password database (hidden from users)
+        const PASSWORDS = {
+            sbu: [
+                'SBU001', 'SBU002', 'SBU003', 'SBU004', 'SBU005',
+                'SBU006', 'SBU007', 'SBU008', 'SBU009', 'SBU010'
+            ],
+            npu: [
+                'NPU101', 'NPU102', 'NPU103', 'NPU104', 'NPU105',
+                'NPU106', 'NPU107', 'NPU108', 'NPU109'
+            ],
+            prosecutor: [
+                'PROC1', 'PROC2', 'PROC3', 'PROC4', 'PROC5'
+            ]
+        };
+
+        // Separate databases for each agency
         const DB = {
-            getCases: () => {
-                const data = localStorage.getItem('erdr_cases');
+            // SBU database
+            getSBUCases: () => {
+                const data = localStorage.getItem('erdr_cases_sbu');
                 return data ? JSON.parse(data) : [];
             },
-            saveCases: (cases) => {
-                localStorage.setItem('erdr_cases', JSON.stringify(cases));
+            saveSBUCases: (cases) => {
+                localStorage.setItem('erdr_cases_sbu', JSON.stringify(cases));
             },
+
+            // NPU database
+            getNPUCases: () => {
+                const data = localStorage.getItem('erdr_cases_npu');
+                return data ? JSON.parse(data) : [];
+            },
+            saveNPUCases: (cases) => {
+                localStorage.setItem('erdr_cases_npu', JSON.stringify(cases));
+            },
+
+            // Prosecutor database
+            getProsecutorCases: () => {
+                const data = localStorage.getItem('erdr_cases_prosecutor');
+                return data ? JSON.parse(data) : [];
+            },
+            saveProsecutorCases: (cases) => {
+                localStorage.setItem('erdr_cases_prosecutor', JSON.stringify(cases));
+            },
+
+            // Session management
             getSession: () => {
                 const data = localStorage.getItem('erdr_session');
                 return data ? JSON.parse(data) : null;
@@ -308,32 +366,71 @@
 
         // Current state
         let currentState = {
-            cases: [],
             session: null,
             editingCase: null
         };
 
         // Initialize
         function init() {
-            loadData();
-            renderCases();
             checkSession();
-        }
-
-        function loadData() {
-            currentState.cases = DB.getCases();
-            currentState.session = DB.getSession();
-            updateUI();
+            document.getElementById('loginHint').style.display = 'block';
         }
 
         function checkSession() {
+            currentState.session = DB.getSession();
             if (currentState.session) {
-                showMessage(`Вітаємо, ${currentState.session.user} (${currentState.session.agency})`, 'success');
+                showMessage(`Вітаємо, ${currentState.session.user} (${getAgencyName(currentState.session.agency)})`, 'success');
+                updateUI();
+                loadAgencyCases();
             }
         }
 
         function updateUI() {
-            // Update UI based on session
+            const actionsSection = document.getElementById('actionsSection');
+            const userInfo = document.getElementById('userInfo');
+            const userDetails = document.getElementById('userDetails');
+            const loginHint = document.getElementById('loginHint');
+            
+            if (currentState.session) {
+                actionsSection.style.display = 'block';
+                userInfo.style.display = 'block';
+                loginHint.style.display = 'none';
+                
+                userDetails.innerHTML = `
+                    <strong>Орган:</strong> ${getAgencyName(currentState.session.agency)}<br>
+                    <strong>Користувач:</strong> ${currentState.session.user}<br>
+                    <strong>ID:</strong> ${currentState.session.userId}<br>
+                    <strong>Вхід:</strong> ${new Date(currentState.session.loginTime).toLocaleString()}
+                `;
+            } else {
+                actionsSection.style.display = 'none';
+                userInfo.style.display = 'none';
+                loginHint.style.display = 'block';
+            }
+        }
+
+        // Password functions
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+            } else {
+                passwordInput.type = 'password';
+            }
+        }
+
+        function validatePassword(agency, password) {
+            return PASSWORDS[agency].includes(password);
+        }
+
+        function generateUserId(agency, password) {
+            const agencyPrefix = {
+                'sbu': 'SBU',
+                'npu': 'NPU', 
+                'prosecutor': 'PROC'
+            };
+            const index = PASSWORDS[agency].indexOf(password) + 1;
+            return `${agencyPrefix[agency]}${index.toString().padStart(2, '0')}`;
         }
 
         // Login function
@@ -347,27 +444,78 @@
                 return;
             }
 
-            // Simple password check
-            if (password !== '123456') {
+            if (!password) {
+                showMessage('Введіть пароль', 'error');
+                return;
+            }
+
+            // Validate password
+            if (!validatePassword(agency, password)) {
                 showMessage('Невірний пароль', 'error');
                 return;
             }
 
+            const userId = generateUserId(agency, password);
+
             currentState.session = {
                 agency: agency,
                 user: userName,
+                userId: userId,
                 loginTime: new Date().toISOString()
             };
 
             DB.saveSession(currentState.session);
-            showMessage(`Успішний вхід! Вітаємо, ${userName}`, 'success');
-            renderCases();
+            showMessage(`Успішний вхід! ${getAgencyName(agency)}`, 'success');
+            updateUI();
+            loadAgencyCases();
         }
 
-        // Cases management
-        function renderCases() {
+        function logout() {
+            currentState.session = null;
+            DB.saveSession(null);
+            showMessage('Вихід з системи', 'success');
+            updateUI();
+            document.getElementById('casesList').innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">Для перегляду справ увійдіть в систему</div>';
+        }
+
+        // Agency-specific case management
+        function loadAgencyCases() {
+            if (!currentState.session) return;
+
+            let cases = [];
+            switch (currentState.session.agency) {
+                case 'sbu':
+                    cases = DB.getSBUCases();
+                    break;
+                case 'npu':
+                    cases = DB.getNPUCases();
+                    break;
+                case 'prosecutor':
+                    cases = DB.getProsecutorCases();
+                    break;
+            }
+
+            renderCases(cases);
+        }
+
+        function saveAgencyCases(cases) {
+            if (!currentState.session) return;
+
+            switch (currentState.session.agency) {
+                case 'sbu':
+                    DB.saveSBUCases(cases);
+                    break;
+                case 'npu':
+                    DB.saveNPUCases(cases);
+                    break;
+                case 'prosecutor':
+                    DB.saveProsecutorCases(cases);
+                    break;
+            }
+        }
+
+        function renderCases(cases) {
             const container = document.getElementById('casesList');
-            const cases = currentState.cases;
             
             if (cases.length === 0) {
                 container.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">Немає справ для відображення</div>';
@@ -380,7 +528,7 @@
                     <div class="case-item">
                         <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                             <div class="case-number">Справа №${caseItem.number}</div>
-                            <div class="agency-badge">${getAgencyName(caseItem.agency)}</div>
+                            <div class="agency-badge">${caseItem.status}</div>
                         </div>
                         <div style="color: #666; margin-bottom: 10px;">
                             ${caseItem.date} • ${caseItem.type}
@@ -390,8 +538,8 @@
                             Слідчий: ${caseItem.investigator}
                         </div>
                         <div style="margin-top: 10px;">
-                            <button class="btn" onclick="editCase('${caseItem.id}')">✏️</button>
-                            <button class="btn btn-danger" onclick="deleteCase('${caseItem.id}')">🗑️</button>
+                            <button class="btn" onclick="editCase('${caseItem.id}')">✏️ Редагувати</button>
+                            <button class="btn btn-danger" onclick="deleteCase('${caseItem.id}')">🗑️ Видалити</button>
                         </div>
                     </div>
                 `;
@@ -421,12 +569,20 @@
             document.getElementById('caseNumber').value = '';
             document.getElementById('caseDate').value = new Date().toISOString().split('T')[0];
             document.getElementById('crimeType').value = 'Кримінальне';
+            document.getElementById('caseStatus').value = 'Нова';
             document.getElementById('caseDescription').value = '';
             document.getElementById('modal').style.display = 'flex';
         }
 
         function editCase(id) {
-            const caseItem = currentState.cases.find(c => c.id === id);
+            let cases = [];
+            switch (currentState.session.agency) {
+                case 'sbu': cases = DB.getSBUCases(); break;
+                case 'npu': cases = DB.getNPUCases(); break;
+                case 'prosecutor': cases = DB.getProsecutorCases(); break;
+            }
+
+            const caseItem = cases.find(c => c.id === id);
             if (!caseItem) return;
 
             currentState.editingCase = id;
@@ -434,6 +590,7 @@
             document.getElementById('caseNumber').value = caseItem.number;
             document.getElementById('caseDate').value = caseItem.date;
             document.getElementById('crimeType').value = caseItem.type;
+            document.getElementById('caseStatus').value = caseItem.status;
             document.getElementById('caseDescription').value = caseItem.description;
             document.getElementById('modal').style.display = 'flex';
         }
@@ -451,10 +608,19 @@
                 return;
             }
 
+            // Get current agency cases
+            let cases = [];
+            switch (currentState.session.agency) {
+                case 'sbu': cases = DB.getSBUCases(); break;
+                case 'npu': cases = DB.getNPUCases(); break;
+                case 'prosecutor': cases = DB.getProsecutorCases(); break;
+            }
+
             const caseData = {
                 number: document.getElementById('caseNumber').value,
                 date: document.getElementById('caseDate').value,
                 type: document.getElementById('crimeType').value,
+                status: document.getElementById('caseStatus').value,
                 description: document.getElementById('caseDescription').value,
                 investigator: currentState.session.user,
                 agency: currentState.session.agency
@@ -462,47 +628,68 @@
 
             if (currentState.editingCase) {
                 // Edit existing case
-                const index = currentState.cases.findIndex(c => c.id === currentState.editingCase);
+                const index = cases.findIndex(c => c.id === currentState.editingCase);
                 if (index !== -1) {
                     caseData.id = currentState.editingCase;
-                    currentState.cases[index] = caseData;
+                    caseData.created = cases[index].created;
+                    cases[index] = caseData;
                 }
             } else {
                 // Add new case
                 caseData.id = Date.now().toString();
-                currentState.cases.push(caseData);
+                caseData.created = new Date().toISOString();
+                cases.push(caseData);
             }
 
-            DB.saveCases(currentState.cases);
+            saveAgencyCases(cases);
             closeModal();
-            renderCases();
+            loadAgencyCases();
             showMessage(currentState.editingCase ? 'Справу оновлено' : 'Справу додано', 'success');
         }
 
         function deleteCase(id) {
             if (!confirm('Видалити цю справу?')) return;
             
-            currentState.cases = currentState.cases.filter(c => c.id !== id);
-            DB.saveCases(currentState.cases);
-            renderCases();
+            let cases = [];
+            switch (currentState.session.agency) {
+                case 'sbu': cases = DB.getSBUCases(); break;
+                case 'npu': cases = DB.getNPUCases(); break;
+                case 'prosecutor': cases = DB.getProsecutorCases(); break;
+            }
+
+            cases = cases.filter(c => c.id !== id);
+            saveAgencyCases(cases);
+            loadAgencyCases();
             showMessage('Справу видалено', 'success');
         }
 
-        // Search
+        // Search (only within own agency)
         function searchCases() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const allCases = DB.getCases();
-            
-            if (!query) {
-                renderCases();
+            if (!currentState.session) {
+                showMessage('Спочатку увійдіть в систему', 'error');
                 return;
             }
 
-            const filtered = allCases.filter(caseItem => 
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            let cases = [];
+            
+            switch (currentState.session.agency) {
+                case 'sbu': cases = DB.getSBUCases(); break;
+                case 'npu': cases = DB.getNPUCases(); break;
+                case 'prosecutor': cases = DB.getProsecutorCases(); break;
+            }
+
+            if (!query) {
+                renderCases(cases);
+                return;
+            }
+
+            const filtered = cases.filter(caseItem => 
                 caseItem.number.toLowerCase().includes(query) ||
                 caseItem.investigator.toLowerCase().includes(query) ||
                 caseItem.description.toLowerCase().includes(query) ||
-                caseItem.type.toLowerCase().includes(query)
+                caseItem.type.toLowerCase().includes(query) ||
+                caseItem.status.toLowerCase().includes(query)
             );
 
             const container = document.getElementById('casesList');
@@ -512,94 +699,49 @@
                 return;
             }
 
-            let html = '';
-            filtered.forEach(caseItem => {
-                html += `
-                    <div class="case-item">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <div class="case-number">Справа №${caseItem.number}</div>
-                            <div class="agency-badge">${getAgencyName(caseItem.agency)}</div>
-                        </div>
-                        <div style="color: #666; margin-bottom: 10px;">
-                            ${caseItem.date} • ${caseItem.type}
-                        </div>
-                        <div>${caseItem.description}</div>
-                    </div>
-                `;
-            });
-            
-            container.innerHTML = html;
+            renderCases(filtered);
             showMessage(`Знайдено справ: ${filtered.length}`, 'success');
         }
 
         function clearSearch() {
             document.getElementById('searchInput').value = '';
-            renderCases();
+            if (currentState.session) {
+                loadAgencyCases();
+            }
+        }
+
+        function generateReport() {
+            if (!currentState.session) return;
+
+            let cases = [];
+            switch (currentState.session.agency) {
+                case 'sbu': cases = DB.getSBUCases(); break;
+                case 'npu': cases = DB.getNPUCases(); break;
+                case 'prosecutor': cases = DB.getProsecutorCases(); break;
+            }
+
+            const stats = {
+                total: cases.length,
+                new: cases.filter(c => c.status === 'Нова').length,
+                inProgress: cases.filter(c => c.status === 'В розслідуванні').length,
+                completed: cases.filter(c => c.status === 'Завершена').length
+            };
+
+            showMessage(`Звіт: Всього ${stats.total} справ (Нові: ${stats.new}, В роботі: ${stats.inProgress}, Завершені: ${stats.completed})`, 'success');
         }
 
         // Utility functions
         function showMessage(text, type) {
-            // Create message element
             const message = document.createElement('div');
             message.className = `message ${type}`;
             message.textContent = text;
             
-            // Add to page
             const container = document.querySelector('.container');
             container.insertBefore(message, container.firstChild);
             
-            // Remove after 3 seconds
             setTimeout(() => {
                 message.remove();
-            }, 3000);
-        }
-
-        function addTestData() {
-            const testCases = [
-                {
-                    id: '1',
-                    number: '001/2024',
-                    date: '2024-01-15',
-                    type: 'Кримінальне',
-                    description: 'Розслідування корупційних дій у державному органі',
-                    investigator: 'Іванов І.І.',
-                    agency: 'sbu'
-                },
-                {
-                    id: '2', 
-                    number: '002/2024',
-                    date: '2024-01-20',
-                    type: 'Кіберзлочин',
-                    description: 'Кібератака на банківську систему',
-                    investigator: 'Петров П.П.',
-                    agency: 'npu'
-                },
-                {
-                    id: '3',
-                    number: '003/2024',
-                    date: '2024-01-25',
-                    type: 'Корупція',
-                    description: 'Зловживання службовим становищем',
-                    investigator: 'Сидоров С.С.',
-                    agency: 'prosecutor'
-                }
-            ];
-
-            currentState.cases = [...currentState.cases, ...testCases];
-            DB.saveCases(currentState.cases);
-            renderCases();
-            showMessage('Тестові дані додано', 'success');
-        }
-
-        function clearData() {
-            if (!confirm('Видалити всі дані?')) return;
-            
-            currentState.cases = [];
-            currentState.session = null;
-            DB.saveCases([]);
-            localStorage.removeItem('erdr_session');
-            renderCases();
-            showMessage('Всі дані видалено', 'success');
+            }, 4000);
         }
 
         // Start the application
