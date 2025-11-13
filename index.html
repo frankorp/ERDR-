@@ -3,37 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Єдиний державний реєстр досудових розслідувань</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <title>Єдиний реєстр досудових розслідувань</title>
     <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary: #7c3aed;
-            --success: #059669;
-            --warning: #d97706;
-            --danger: #dc2626;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --gray-light: #e2e8f0;
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 20px 50px -12px rgba(0, 0, 0, 0.25);
-            --radius: 16px;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: Arial, sans-serif;
         }
 
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: var(--dark);
-            line-height: 1.6;
             min-height: 100vh;
             padding: 20px;
         }
@@ -43,136 +23,54 @@
             margin: 0 auto;
         }
 
-        /* Header */
         .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: var(--radius);
-            padding: 24px 32px;
-            margin-bottom: 30px;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .emblem {
-            font-size: 48px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .logo-text h1 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .logo-text p {
-            color: var(--gray);
-            font-size: 14px;
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 20px;
-            border: none;
+            background: white;
+            padding: 20px;
             border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+        .header h1 {
+            color: #2563eb;
+            margin-bottom: 5px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, var(--secondary), #6d28d9);
+            background: #2563eb;
             color: white;
         }
 
         .btn-success {
-            background: linear-gradient(135deg, var(--success), #047857);
+            background: #059669;
             color: white;
         }
 
         .btn-danger {
-            background: linear-gradient(135deg, var(--danger), #b91c1c);
+            background: #dc2626;
             color: white;
         }
 
-        .btn-warning {
-            background: linear-gradient(135deg, var(--warning), #b45309);
-            color: white;
-        }
-
-        .btn-ghost {
-            background: rgba(255, 255, 255, 0.8);
-            color: var(--dark);
-            border: 1px solid var(--gray-light);
-        }
-
-        /* Cards */
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: var(--radius);
-            padding: 24px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .hero {
-            text-align: center;
-            padding: 40px;
-        }
-
-        .hero h2 {
-            font-size: 36px;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-actions {
-            margin-top: 30px;
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        /* Grid */
         .grid {
             display: grid;
-            grid-template-columns: 1fr 350px;
+            grid-template-columns: 1fr 300px;
             gap: 20px;
         }
 
@@ -180,108 +78,58 @@
             .grid {
                 grid-template-columns: 1fr;
             }
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-            }
         }
 
-        /* Search */
         .search-box {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 20px;
         }
 
         .search-box input {
             flex: 1;
-            padding: 12px 16px;
-            border: 1px solid var(--gray-light);
-            border-radius: 10px;
-            font-size: 14px;
-        }
-
-        /* Cases List */
-        .cases-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
 
         .case-item {
-            background: white;
-            border-radius: 12px;
-            padding: 16px;
-            border: 1px solid var(--gray-light);
-            transition: all 0.3s ease;
-        }
-
-        .case-item:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-
-        .case-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
+            border: 1px solid #e5e7eb;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
         }
 
         .case-number {
+            font-weight: bold;
+            color: #2563eb;
             font-size: 18px;
-            font-weight: 700;
-            color: var(--primary);
         }
 
-        .case-agency {
-            background: var(--gray-light);
-            padding: 4px 8px;
-            border-radius: 6px;
+        .agency-badge {
+            background: #e5e7eb;
+            padding: 2px 8px;
+            border-radius: 3px;
             font-size: 12px;
-            font-weight: 600;
         }
 
-        .case-meta {
-            color: var(--gray);
-            font-size: 14px;
-            margin-bottom: 8px;
+        .form-group {
+            margin-bottom: 15px;
         }
 
-        .case-description {
-            margin-bottom: 12px;
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
 
-        .case-actions {
-            display: flex;
-            gap: 8px;
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
 
-        /* Agency Selector */
-        .agency-selector {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-            margin: 20px 0;
-        }
-
-        .agency-card {
-            background: white;
-            border: 2px solid var(--gray-light);
-            border-radius: 12px;
-            padding: 16px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .agency-card:hover,
-        .agency-card.active {
-            border-color: var(--primary);
-            background: rgba(37, 99, 235, 0.05);
-        }
-
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -289,8 +137,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.5);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -298,108 +145,45 @@
 
         .modal-content {
             background: white;
-            border-radius: var(--radius);
-            padding: 24px;
+            padding: 20px;
+            border-radius: 10px;
             width: 90%;
             max-width: 500px;
-            box-shadow: var(--shadow-lg);
         }
 
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--gray-light);
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-            margin-top: 20px;
-        }
-
-        /* Messages */
         .message {
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 16px;
-            font-weight: 600;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
         }
 
         .message.success {
             background: #dcfce7;
             color: #166534;
-            border: 1px solid #bbf7d0;
         }
 
         .message.error {
             background: #fee2e2;
             color: #991b1b;
-            border: 1px solid #fecaca;
         }
 
-        .message.info {
-            background: #dbeafe;
-            color: #1e40af;
-            border: 1px solid #bfdbfe;
-        }
-
-        /* Stats */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin: 16px 0;
+            gap: 10px;
         }
 
         .stat-card {
-            background: white;
-            border-radius: 8px;
-            padding: 16px;
             text-align: center;
-            border: 1px solid var(--gray-light);
+            padding: 15px;
+            border: 1px solid #e5e7eb;
+            border-radius: 5px;
         }
 
         .stat-number {
             font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: var(--gray);
-            margin-top: 4px;
-        }
-
-        .password-input {
-            position: relative;
-        }
-
-        .toggle-password {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--gray);
+            font-weight: bold;
+            color: #2563eb;
         }
     </style>
 </head>
@@ -407,59 +191,24 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="emblem">⚖️</div>
-                    <div class="logo-text">
-                        <h1>Єдиний державний реєстр досудових розслідувань</h1>
-                        <p>Міністерство юстиції України · GitHub Pages версія</p>
-                    </div>
-                </div>
-                <div class="header-actions">
-                    <button class="btn btn-ghost" id="statusBtn">🔒 Не авторизовано</button>
-                    <button class="btn btn-primary" id="loginBtn">🔑 Увійти</button>
-                    <button class="btn btn-success" id="addBtn" style="display: none;">➕ Додати справу</button>
-                </div>
-            </div>
+            <h1>Єдиний реєстр досудових розслідувань</h1>
+            <p>Демо-версія системи</p>
         </header>
-
-        <!-- Hero Section -->
-        <section class="card hero">
-            <h2>Офіційний портал ЄДРР</h2>
-            <p>Інформаційна система обліку досудових розслідувань</p>
-            <div class="hero-actions">
-                <button class="btn btn-primary" onclick="showSection('search')">🔍 Пошук справ</button>
-                <button class="btn btn-secondary" onclick="showSection('admin')">⚙️ Панель органів</button>
-                <button class="btn btn-warning" onclick="showSection('stats')">📊 Статистика</button>
-                <button class="btn btn-ghost" onclick="exportData()">📤 Експорт даних</button>
-            </div>
-        </section>
-
-        <!-- System Messages -->
-        <div id="systemMessage" class="message" style="display: none;"></div>
 
         <!-- Main Content -->
         <div class="grid">
             <!-- Left Column -->
             <main>
                 <!-- Search Section -->
-                <section class="card" id="searchSection">
-                    <h3>🔍 Пошук у реєстрі</h3>
+                <section class="card">
+                    <h3>🔍 Пошук справ</h3>
                     <div class="search-box">
-                        <input type="text" id="searchInput" placeholder="Пошук за номером, слідчим або описом...">
-                        <button class="btn btn-primary" onclick="performSearch()">Пошук</button>
-                        <button class="btn btn-ghost" onclick="clearSearch()">Очистити</button>
+                        <input type="text" id="searchInput" placeholder="Номер справи, слідчий, опис...">
+                        <button class="btn btn-primary" onclick="searchCases()">Пошук</button>
+                        <button class="btn" onclick="clearSearch()">Очистити</button>
                     </div>
-                    <div class="cases-list" id="casesList">
-                        <!-- Cases will be loaded here -->
-                    </div>
-                </section>
-
-                <!-- Statistics Section -->
-                <section class="card" id="statsSection" style="display: none;">
-                    <h3>📊 Статистика системи</h3>
-                    <div class="stats-grid" id="statsGrid">
-                        <!-- Statistics will be loaded here -->
+                    <div id="casesList">
+                        <!-- Cases will appear here -->
                     </div>
                 </section>
             </main>
@@ -467,669 +216,394 @@
             <!-- Right Column -->
             <aside>
                 <!-- Admin Panel -->
-                <section class="card" id="adminSection" style="display: none;">
-                    <h3>⚙️ Панель органів</h3>
-                    <div class="agency-selector">
-                        <div class="agency-card" data-agency="sbu" onclick="selectAgency(this)">
-                            <div style="font-size: 24px; margin-bottom: 8px;">🛡️</div>
-                            <div style="font-weight: 600;">СБУ</div>
-                            <div style="font-size: 12px; color: var(--gray); margin-top: 4px;">Служба безпеки України</div>
-                        </div>
-                        <div class="agency-card" data-agency="npu" onclick="selectAgency(this)">
-                            <div style="font-size: 24px; margin-bottom: 8px;">👮</div>
-                            <div style="font-weight: 600;">НПУ</div>
-                            <div style="font-size: 12px; color: var(--gray); margin-top: 4px;">Національна поліція</div>
-                        </div>
-                        <div class="agency-card" data-agency="prosecutor" onclick="selectAgency(this)">
-                            <div style="font-size: 24px; margin-bottom: 8px;">⚖️</div>
-                            <div style="font-weight: 600;">Прокуратура</div>
-                            <div style="font-size: 12px; color: var(--gray); margin-top: 4px;">Офіс Генпрокурора</div>
-                        </div>
+                <section class="card">
+                    <h3>🔐 Вхід в систему</h3>
+                    <div class="form-group">
+                        <label>Орган:</label>
+                        <select id="agencySelect">
+                            <option value="sbu">СБУ</option>
+                            <option value="npu">Національна поліція</option>
+                            <option value="prosecutor">Прокуратура</option>
+                        </select>
                     </div>
+                    <div class="form-group">
+                        <label>ПІБ співробітника:</label>
+                        <input type="text" id="userName" placeholder="Ваше ПІБ" value="Тестовий Користувач">
+                    </div>
+                    <div class="form-group">
+                        <label>Пароль:</label>
+                        <input type="password" id="password" placeholder="Пароль" value="123456">
+                    </div>
+                    <button class="btn btn-primary" onclick="login()" style="width: 100%;">Увійти</button>
                     
-                    <div id="loginForm" style="margin-top: 20px;">
-                        <div class="form-group">
-                            <label>ПІБ співробітника:</label>
-                            <input type="text" id="investigatorName" placeholder="Ваше повне ПІБ">
-                        </div>
-                        <div class="form-group password-input">
-                            <label>Код доступу:</label>
-                            <input type="password" id="agencyPassword" placeholder="Введіть код вашого органу">
-                            <button type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
-                        </div>
-                        <button class="btn btn-primary" onclick="agencyLogin()" style="width: 100%;">Увійти в систему</button>
-                    </div>
-
-                    <div id="agencyPanel" style="display: none; margin-top: 20px;">
-                        <div style="background: #f8fafc; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
-                            <div style="font-weight: 600;" id="welcomeMessage"></div>
-                        </div>
-                        <div style="display: flex; flex-direction: column; gap: 8px;">
-                            <button class="btn btn-success" onclick="openAddModal()">➕ Додати справу</button>
-                            <button class="btn btn-warning" onclick="syncData()">🔄 Синхронізувати</button>
-                            <button class="btn btn-ghost" onclick="logout()">🚪 Вийти</button>
-                        </div>
+                    <div style="margin-top: 15px; padding: 10px; background: #f3f4f6; border-radius: 5px; font-size: 12px;">
+                        <strong>Тестові дані:</strong><br>
+                        Пароль: 123456<br>
+                        Любой орган + любое ПІБ
                     </div>
                 </section>
 
-                <!-- Quick Actions -->
+                <!-- Actions -->
                 <section class="card">
-                    <h3>🚀 Швидкі дії</h3>
-                    <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 16px;">
-                        <button class="btn btn-ghost" onclick="loadAllCases()">👁️ Всі справи</button>
-                        <button class="btn btn-ghost" onclick="addTestData()">🧪 Тестові дані</button>
-                        <button class="btn btn-success" onclick="exportToGitHub()">📤 Експорт на GitHub</button>
-                        <button class="btn btn-danger" onclick="clearAllData()">🗑️ Очистити все</button>
-                    </div>
-                    <div style="margin-top: 16px; padding: 12px; background: #fef3c7; border-radius: 8px;">
-                        <div style="font-size: 12px; color: #92400e;">
-                            <strong>Демо-паролі:</strong><br>
-                            СБУ: SBU2024<br>
-                            НПУ: NPU2024<br>
-                            Прокуратура: PROSECUTOR2024<br>
-                            Супер-адмін: ERDR2024MASTER
-                        </div>
-                    </div>
+                    <h3>🚀 Дії</h3>
+                    <button class="btn btn-success" onclick="addCase()" style="width: 100%; margin: 5px 0;">➕ Додати справу</button>
+                    <button class="btn" onclick="addTestData()" style="width: 100%; margin: 5px 0;">🧪 Тестові дані</button>
+                    <button class="btn btn-danger" onclick="clearData()" style="width: 100%; margin: 5px 0;">🗑️ Очистити все</button>
                 </section>
             </aside>
         </div>
     </div>
 
-    <!-- Add/Edit Case Modal -->
-    <div class="modal" id="caseModal">
+    <!-- Add Case Modal -->
+    <div class="modal" id="modal">
         <div class="modal-content">
             <h3 id="modalTitle">Додати справу</h3>
-            <form id="caseForm">
+            <form onsubmit="saveCase(event)">
                 <div class="form-group">
-                    <label>Номер справи *</label>
+                    <label>Номер справи:</label>
                     <input type="text" id="caseNumber" required>
                 </div>
                 <div class="form-group">
-                    <label>Дата реєстрації *</label>
-                    <input type="date" id="registrationDate" required>
+                    <label>Дата:</label>
+                    <input type="date" id="caseDate" required>
                 </div>
                 <div class="form-group">
-                    <label>Вид злочину *</label>
+                    <label>Тип злочину:</label>
                     <select id="crimeType" required>
-                        <option value="">Оберіть вид злочину</option>
-                        <option value="Кримінальне правопорушення">Кримінальне правопорушення</option>
-                        <option value="Кіберзлочинність">Кіберзлочинність</option>
-                        <option value="Корупційний злочин">Корупційний злочин</option>
-                        <option value="Економічний злочин">Економічний злочин</option>
-                        <option value="Тероризм">Тероризм</option>
+                        <option value="Кримінальне">Кримінальне правопорушення</option>
+                        <option value="Кіберзлочин">Кіберзлочинність</option>
+                        <option value="Корупція">Корупційний злочин</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Статус *</label>
-                    <select id="caseStatus" required>
-                        <option value="Нова">Нова</option>
-                        <option value="Активне">Активне</option>
-                        <option value="Завершене">Завершене</option>
-                        <option value="Призупинене">Призупинене</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Опис справи *</label>
+                    <label>Опис:</label>
                     <textarea id="caseDescription" rows="3" required></textarea>
                 </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-ghost" onclick="closeModal()">Скасувати</button>
-                    <button type="submit" class="btn btn-primary">💾 Зберегти</button>
+                <div style="text-align: right;">
+                    <button type="button" class="btn" onclick="closeModal()">Скасувати</button>
+                    <button type="submit" class="btn btn-primary">Зберегти</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
-        // Конфігурація
-        const CONFIG = {
-            PASSWORDS: {
-                sbu: 'SBU2024',
-                npu: 'NPU2024',
-                prosecutor: 'PROSECUTOR2024',
-                super: 'ERDR2024MASTER'
+        // Simple database using localStorage
+        const DB = {
+            getCases: () => {
+                const data = localStorage.getItem('erdr_cases');
+                return data ? JSON.parse(data) : [];
             },
-            STORAGE_KEYS: {
-                cases: 'erdr_cases',
-                session: 'erdr_session',
-                backup: 'erdr_backup'
+            saveCases: (cases) => {
+                localStorage.setItem('erdr_cases', JSON.stringify(cases));
+            },
+            getSession: () => {
+                const data = localStorage.getItem('erdr_session');
+                return data ? JSON.parse(data) : null;
+            },
+            saveSession: (session) => {
+                localStorage.setItem('erdr_session', JSON.stringify(session));
             }
         };
 
-        // Стан програми
-        let state = {
+        // Current state
+        let currentState = {
             cases: [],
             session: null,
-            currentSection: 'search'
+            editingCase: null
         };
 
-        // Утіліти
-        const $ = id => document.getElementById(id);
-
-        function showMessage(message, type = 'info') {
-            const msgEl = $('systemMessage');
-            msgEl.textContent = message;
-            msgEl.className = `message ${type}`;
-            msgEl.style.display = 'block';
-            setTimeout(() => msgEl.style.display = 'none', 5000);
-        }
-
-        function togglePassword() {
-            const passwordInput = $('agencyPassword');
-            const toggleBtn = document.querySelector('.toggle-password');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                toggleBtn.textContent = '🔒';
-            } else {
-                passwordInput.type = 'password';
-                toggleBtn.textContent = '👁️';
-            }
-        }
-
-        // База даних (LocalStorage)
-        function loadCases() {
-            try {
-                const saved = localStorage.getItem(CONFIG.STORAGE_KEYS.cases);
-                state.cases = saved ? JSON.parse(saved) : [];
-                return state.cases;
-            } catch (error) {
-                console.error('Помилка завантаження даних:', error);
-                state.cases = [];
-                return [];
-            }
-        }
-
-        function saveCases() {
-            try {
-                localStorage.setItem(CONFIG.STORAGE_KEYS.cases, JSON.stringify(state.cases));
-                return true;
-            } catch (error) {
-                console.error('Помилка збереження даних:', error);
-                showMessage('Помилка збереження даних', 'error');
-                return false;
-            }
-        }
-
-        function loadSession() {
-            try {
-                const saved = localStorage.getItem(CONFIG.STORAGE_KEYS.session);
-                state.session = saved ? JSON.parse(saved) : null;
-                updateUI();
-            } catch (error) {
-                console.error('Помилка завантаження сесії:', error);
-                state.session = null;
-            }
-        }
-
-        function saveSession() {
-            try {
-                if (state.session) {
-                    localStorage.setItem(CONFIG.STORAGE_KEYS.session, JSON.stringify(state.session));
-                } else {
-                    localStorage.removeItem(CONFIG.STORAGE_KEYS.session);
-                }
-            } catch (error) {
-                console.error('Помилка збереження сесії:', error);
-            }
-        }
-
-        // UI Functions
-        function updateUI() {
-            const statusBtn = $('statusBtn');
-            const addBtn = $('addBtn');
-            const agencyPanel = $('agencyPanel');
-            const loginForm = $('loginForm');
-
-            if (state.session) {
-                statusBtn.textContent = state.session.isSuper ? 
-                    '👑 Супер-адмін' : 
-                    `🔐 ${state.session.agency.toUpperCase()} · ${state.session.user}`;
-                addBtn.style.display = 'inline-flex';
-                agencyPanel.style.display = 'block';
-                loginForm.style.display = 'none';
-                $('welcomeMessage').textContent = `Ласкаво просимо, ${state.session.user}!`;
-            } else {
-                statusBtn.textContent = '🔒 Не авторизовано';
-                addBtn.style.display = 'none';
-                agencyPanel.style.display = 'none';
-                loginForm.style.display = 'block';
-            }
-        }
-
-        function showSection(section) {
-            // Приховати всі секції
-            document.querySelectorAll('section.card').forEach(sec => {
-                sec.style.display = 'none';
-            });
-            
-            // Показати обрану секцію
-            $(`${section}Section`).style.display = 'block';
-            state.currentSection = section;
-
-            if (section === 'search') {
-                renderCases();
-            } else if (section === 'stats') {
-                renderStatistics();
-            }
-        }
-
-        // Рендер справ
-        function renderCases(casesToRender = state.cases) {
-            const container = $('casesList');
-            
-            if (casesToRender.length === 0) {
-                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #64748b;">Справи відсутні</div>';
-                return;
-            }
-
-            container.innerHTML = casesToRender.map(caseItem => `
-                <div class="case-item">
-                    <div class="case-header">
-                        <div class="case-number">Справа №${caseItem.caseNumber}</div>
-                        <div class="case-agency">${getAgencyBadge(caseItem.agency)}</div>
-                    </div>
-                    <div class="case-meta">
-                        ${formatDate(caseItem.registrationDate)} · ${caseItem.crimeType} · ${caseItem.status}
-                    </div>
-                    <div class="case-description">${caseItem.description}</div>
-                    <div class="case-meta">Слідчий: ${caseItem.investigator}</div>
-                    <div class="case-actions">
-                        ${getCaseActions(caseItem)}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function formatDate(dateString) {
-            try {
-                return new Date(dateString).toLocaleDateString('uk-UA');
-            } catch {
-                return dateString;
-            }
-        }
-
-        function getAgencyBadge(agency) {
-            const badges = {
-                sbu: '🛡️ СБУ',
-                npu: '👮 НПУ',
-                prosecutor: '⚖️ Прокуратура'
-            };
-            return badges[agency] || agency;
-        }
-
-        function getCaseActions(caseItem) {
-            const canModify = state.session && (state.session.isSuper || state.session.agency === caseItem.agency);
-            
-            if (!canModify) {
-                return '<div style="color: #64748b; font-size: 12px;">Лише перегляд</div>';
-            }
-
-            return `
-                <button class="btn btn-ghost" onclick="editCase(${caseItem.id})" style="padding: 6px 12px; font-size: 12px;">✏️ Редагувати</button>
-                <button class="btn btn-danger" onclick="deleteCase(${caseItem.id})" style="padding: 6px 12px; font-size: 12px;">🗑️ Видалити</button>
-            `;
-        }
-
-        // Пошук
-        function performSearch() {
-            const query = $('searchInput').value.toLowerCase().trim();
-            let filteredCases = state.cases;
-
-            if (query) {
-                filteredCases = state.cases.filter(caseItem =>
-                    caseItem.caseNumber.toLowerCase().includes(query) ||
-                    caseItem.investigator.toLowerCase().includes(query) ||
-                    caseItem.description.toLowerCase().includes(query) ||
-                    caseItem.crimeType.toLowerCase().includes(query)
-                );
-            }
-
-            // Якщо користувач увійшов як орган, показуємо тільки його справи
-            if (state.session && !state.session.isSuper) {
-                filteredCases = filteredCases.filter(caseItem => caseItem.agency === state.session.agency);
-            }
-
-            renderCases(filteredCases);
-            showMessage(`Знайдено ${filteredCases.length} справ`, 'info');
-        }
-
-        function clearSearch() {
-            $('searchInput').value = '';
+        // Initialize
+        function init() {
+            loadData();
             renderCases();
+            checkSession();
         }
 
-        // Авторизація
-        let selectedAgency = null;
-
-        function selectAgency(element) {
-            document.querySelectorAll('.agency-card').forEach(card => {
-                card.classList.remove('active');
-            });
-            element.classList.add('active');
-            selectedAgency = element.dataset.agency;
+        function loadData() {
+            currentState.cases = DB.getCases();
+            currentState.session = DB.getSession();
+            updateUI();
         }
 
-        function agencyLogin() {
-            if (!selectedAgency) {
-                showMessage('Оберіть орган для входу', 'error');
-                return;
+        function checkSession() {
+            if (currentState.session) {
+                showMessage(`Вітаємо, ${currentState.session.user} (${currentState.session.agency})`, 'success');
             }
+        }
 
-            const password = $('agencyPassword').value;
-            const investigatorName = $('investigatorName').value.trim();
+        function updateUI() {
+            // Update UI based on session
+        }
 
-            if (!investigatorName) {
+        // Login function
+        function login() {
+            const agency = document.getElementById('agencySelect').value;
+            const userName = document.getElementById('userName').value;
+            const password = document.getElementById('password').value;
+
+            if (!userName) {
                 showMessage('Введіть ПІБ співробітника', 'error');
                 return;
             }
 
-            if (!password) {
-                showMessage('Введіть код доступу', 'error');
+            // Simple password check
+            if (password !== '123456') {
+                showMessage('Невірний пароль', 'error');
                 return;
             }
 
-            // Перевірка пароля
-            if (password === CONFIG.PASSWORDS.super) {
-                state.session = {
-                    isSuper: true,
-                    user: investigatorName,
-                    agency: 'super',
-                    loginTime: new Date().toISOString()
-                };
-            } else if (password === CONFIG.PASSWORDS[selectedAgency]) {
-                state.session = {
-                    isSuper: false,
-                    user: investigatorName,
-                    agency: selectedAgency,
-                    loginTime: new Date().toISOString()
-                };
-            } else {
-                showMessage('Невірний код доступу', 'error');
+            currentState.session = {
+                agency: agency,
+                user: userName,
+                loginTime: new Date().toISOString()
+            };
+
+            DB.saveSession(currentState.session);
+            showMessage(`Успішний вхід! Вітаємо, ${userName}`, 'success');
+            renderCases();
+        }
+
+        // Cases management
+        function renderCases() {
+            const container = document.getElementById('casesList');
+            const cases = currentState.cases;
+            
+            if (cases.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">Немає справ для відображення</div>';
                 return;
             }
 
-            saveSession();
-            updateUI();
-            showMessage(`Успішний вхід! Ласкаво просимо, ${investigatorName}`, 'success');
-            renderCases();
+            let html = '';
+            cases.forEach(caseItem => {
+                html += `
+                    <div class="case-item">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <div class="case-number">Справа №${caseItem.number}</div>
+                            <div class="agency-badge">${getAgencyName(caseItem.agency)}</div>
+                        </div>
+                        <div style="color: #666; margin-bottom: 10px;">
+                            ${caseItem.date} • ${caseItem.type}
+                        </div>
+                        <div style="margin-bottom: 10px;">${caseItem.description}</div>
+                        <div style="color: #666; font-size: 14px;">
+                            Слідчий: ${caseItem.investigator}
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <button class="btn" onclick="editCase('${caseItem.id}')">✏️</button>
+                            <button class="btn btn-danger" onclick="deleteCase('${caseItem.id}')">🗑️</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
         }
 
-        function logout() {
-            state.session = null;
-            saveSession();
-            updateUI();
-            showMessage('Вихід з системи', 'info');
-            renderCases();
+        function getAgencyName(agency) {
+            const agencies = {
+                'sbu': 'СБУ',
+                'npu': 'НПУ', 
+                'prosecutor': 'Прокуратура'
+            };
+            return agencies[agency] || agency;
         }
 
-        // Робота з модальним вікном
-        let editingCaseId = null;
-
-        function openAddModal() {
-            if (!state.session) {
+        // Modal functions
+        function addCase() {
+            if (!currentState.session) {
                 showMessage('Спочатку увійдіть в систему', 'error');
                 return;
             }
 
-            editingCaseId = null;
-            $('modalTitle').textContent = 'Додати справу';
-            $('caseForm').reset();
-            $('caseModal').style.display = 'flex';
+            currentState.editingCase = null;
+            document.getElementById('modalTitle').textContent = 'Додати справу';
+            document.getElementById('caseNumber').value = '';
+            document.getElementById('caseDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('crimeType').value = 'Кримінальне';
+            document.getElementById('caseDescription').value = '';
+            document.getElementById('modal').style.display = 'flex';
         }
 
         function editCase(id) {
-            const caseItem = state.cases.find(c => c.id === id);
+            const caseItem = currentState.cases.find(c => c.id === id);
             if (!caseItem) return;
 
-            editingCaseId = id;
-            $('modalTitle').textContent = 'Редагувати справу';
-            $('caseNumber').value = caseItem.caseNumber;
-            $('registrationDate').value = caseItem.registrationDate;
-            $('crimeType').value = caseItem.crimeType;
-            $('caseStatus').value = caseItem.status;
-            $('caseDescription').value = caseItem.description;
-            $('caseModal').style.display = 'flex';
+            currentState.editingCase = id;
+            document.getElementById('modalTitle').textContent = 'Редагувати справу';
+            document.getElementById('caseNumber').value = caseItem.number;
+            document.getElementById('caseDate').value = caseItem.date;
+            document.getElementById('crimeType').value = caseItem.type;
+            document.getElementById('caseDescription').value = caseItem.description;
+            document.getElementById('modal').style.display = 'flex';
         }
 
         function closeModal() {
-            $('caseModal').style.display = 'none';
-            editingCaseId = null;
+            document.getElementById('modal').style.display = 'none';
+            currentState.editingCase = null;
         }
 
-        // Збереження справи
-        $('caseForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            if (!state.session) {
-                showMessage('Сесія закінчилась. Увійдіть знову.', 'error');
+        function saveCase(event) {
+            event.preventDefault();
+            
+            if (!currentState.session) {
+                showMessage('Сесія закінчилась', 'error');
                 return;
             }
 
             const caseData = {
-                caseNumber: $('caseNumber').value.trim(),
-                registrationDate: $('registrationDate').value,
-                crimeType: $('crimeType').value,
-                status: $('caseStatus').value,
-                description: $('caseDescription').value.trim(),
-                investigator: state.session.user,
-                agency: state.session.agency,
-                updated: new Date().toISOString()
+                number: document.getElementById('caseNumber').value,
+                date: document.getElementById('caseDate').value,
+                type: document.getElementById('crimeType').value,
+                description: document.getElementById('caseDescription').value,
+                investigator: currentState.session.user,
+                agency: currentState.session.agency
             };
 
-            if (!caseData.caseNumber || !caseData.description) {
-                showMessage('Заповніть обовʼязкові поля', 'error');
+            if (currentState.editingCase) {
+                // Edit existing case
+                const index = currentState.cases.findIndex(c => c.id === currentState.editingCase);
+                if (index !== -1) {
+                    caseData.id = currentState.editingCase;
+                    currentState.cases[index] = caseData;
+                }
+            } else {
+                // Add new case
+                caseData.id = Date.now().toString();
+                currentState.cases.push(caseData);
+            }
+
+            DB.saveCases(currentState.cases);
+            closeModal();
+            renderCases();
+            showMessage(currentState.editingCase ? 'Справу оновлено' : 'Справу додано', 'success');
+        }
+
+        function deleteCase(id) {
+            if (!confirm('Видалити цю справу?')) return;
+            
+            currentState.cases = currentState.cases.filter(c => c.id !== id);
+            DB.saveCases(currentState.cases);
+            renderCases();
+            showMessage('Справу видалено', 'success');
+        }
+
+        // Search
+        function searchCases() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const allCases = DB.getCases();
+            
+            if (!query) {
+                renderCases();
                 return;
             }
 
-            if (editingCaseId) {
-                // Редагування
-                const index = state.cases.findIndex(c => c.id === editingCaseId);
-                if (index !== -1) {
-                    caseData.id = editingCaseId;
-                    caseData.created = state.cases[index].created; // Зберігаємо оригінальну дату створення
-                    state.cases[index] = caseData;
-                }
-            } else {
-                // Додавання
-                caseData.id = Date.now();
-                caseData.created = new Date().toISOString();
-                state.cases.push(caseData);
+            const filtered = allCases.filter(caseItem => 
+                caseItem.number.toLowerCase().includes(query) ||
+                caseItem.investigator.toLowerCase().includes(query) ||
+                caseItem.description.toLowerCase().includes(query) ||
+                caseItem.type.toLowerCase().includes(query)
+            );
+
+            const container = document.getElementById('casesList');
+            
+            if (filtered.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">Нічого не знайдено</div>';
+                return;
             }
 
-            if (saveCases()) {
-                closeModal();
-                renderCases();
-                showMessage(editingCaseId ? 'Справу оновлено' : 'Справу додано', 'success');
-            }
-        });
-
-        // Видалення справи
-        function deleteCase(id) {
-            if (!confirm('Ви впевнені, що хочете видалити цю справу?')) return;
-
-            state.cases = state.cases.filter(c => c.id !== id);
-            if (saveCases()) {
-                renderCases();
-                showMessage('Справу видалено', 'success');
-            }
+            let html = '';
+            filtered.forEach(caseItem => {
+                html += `
+                    <div class="case-item">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <div class="case-number">Справа №${caseItem.number}</div>
+                            <div class="agency-badge">${getAgencyName(caseItem.agency)}</div>
+                        </div>
+                        <div style="color: #666; margin-bottom: 10px;">
+                            ${caseItem.date} • ${caseItem.type}
+                        </div>
+                        <div>${caseItem.description}</div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            showMessage(`Знайдено справ: ${filtered.length}`, 'success');
         }
 
-        // Статистика
-        function renderStatistics() {
-            const stats = calculateStatistics();
-            const container = $('statsGrid');
-
-            container.innerHTML = `
-                <div class="stat-card">
-                    <div class="stat-number">${stats.total}</div>
-                    <div class="stat-label">Всього справ</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">${stats.byAgency.sbu}</div>
-                    <div class="stat-label">🛡️ СБУ</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">${stats.byAgency.npu}</div>
-                    <div class="stat-label">👮 НПУ</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">${stats.byAgency.prosecutor}</div>
-                    <div class="stat-label">⚖️ Прокуратура</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">${stats.byStatus.active}</div>
-                    <div class="stat-label">Активні</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">${stats.byStatus.completed}</div>
-                    <div class="stat-label">Завершені</div>
-                </div>
-            `;
-        }
-
-        function calculateStatistics() {
-            return {
-                total: state.cases.length,
-                byAgency: {
-                    sbu: state.cases.filter(c => c.agency === 'sbu').length,
-                    npu: state.cases.filter(c => c.agency === 'npu').length,
-                    prosecutor: state.cases.filter(c => c.agency === 'prosecutor').length
-                },
-                byStatus: {
-                    active: state.cases.filter(c => c.status === 'Активне').length,
-                    completed: state.cases.filter(c => c.status === 'Завершене').length,
-                    new: state.cases.filter(c => c.status === 'Нова').length
-                }
-            };
-        }
-
-        // Додаткові функції
-        function loadAllCases() {
-            if (!state.session || !state.session.isSuper) {
-                const password = prompt('Введіть пароль супер-адміна:');
-                if (password !== CONFIG.PASSWORDS.super) {
-                    showMessage('Невірний пароль', 'error');
-                    return;
-                }
-                state.session = { 
-                    isSuper: true, 
-                    user: 'Супер-адмін', 
-                    agency: 'super',
-                    loginTime: new Date().toISOString()
-                };
-                saveSession();
-                updateUI();
-            }
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
             renderCases();
-            showSection('search');
+        }
+
+        // Utility functions
+        function showMessage(text, type) {
+            // Create message element
+            const message = document.createElement('div');
+            message.className = `message ${type}`;
+            message.textContent = text;
+            
+            // Add to page
+            const container = document.querySelector('.container');
+            container.insertBefore(message, container.firstChild);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                message.remove();
+            }, 3000);
         }
 
         function addTestData() {
             const testCases = [
                 {
-                    id: Date.now() + 1,
-                    caseNumber: '001',
-                    registrationDate: '2024-01-15',
-                    crimeType: 'Кримінальне правопорушення',
-                    status: 'Активне',
-                    investigator: 'Слідчий СБУ',
-                    agency: 'sbu',
-                    description: 'Тестова справа СБУ №001 - розслідування корупційних дій',
-                    created: new Date().toISOString(),
-                    updated: new Date().toISOString()
+                    id: '1',
+                    number: '001/2024',
+                    date: '2024-01-15',
+                    type: 'Кримінальне',
+                    description: 'Розслідування корупційних дій у державному органі',
+                    investigator: 'Іванов І.І.',
+                    agency: 'sbu'
                 },
                 {
-                    id: Date.now() + 2,
-                    caseNumber: '002',
-                    registrationDate: '2024-01-20',
-                    crimeType: 'Кіберзлочинність',
-                    status: 'Активне',
-                    investigator: 'Слідчий НПУ',
-                    agency: 'npu',
-                    description: 'Тестова справа НПУ №002 - кібератака на банківську систему',
-                    created: new Date().toISOString(),
-                    updated: new Date().toISOString()
+                    id: '2', 
+                    number: '002/2024',
+                    date: '2024-01-20',
+                    type: 'Кіберзлочин',
+                    description: 'Кібератака на банківську систему',
+                    investigator: 'Петров П.П.',
+                    agency: 'npu'
                 },
                 {
-                    id: Date.now() + 3,
-                    caseNumber: '003',
-                    registrationDate: '2024-01-25',
-                    crimeType: 'Корупційний злочин',
-                    status: 'Завершене',
-                    investigator: 'Прокурор',
-                    agency: 'prosecutor',
-                    description: 'Тестова справа Прокуратури №003 - зловживання службовим становищем',
-                    created: new Date().toISOString(),
-                    updated: new Date().toISOString()
+                    id: '3',
+                    number: '003/2024',
+                    date: '2024-01-25',
+                    type: 'Корупція',
+                    description: 'Зловживання службовим становищем',
+                    investigator: 'Сидоров С.С.',
+                    agency: 'prosecutor'
                 }
             ];
 
-            state.cases.push(...testCases);
-            if (saveCases()) {
-                renderCases();
-                showMessage('Тестові дані додано', 'success');
-            }
-        }
-
-        function clearAllData() {
-            if (!confirm('ВИ ВПЕВНЕНІ? Всі дані будуть видалені без можливості відновлення!')) return;
-            
-            state.cases = [];
-            if (saveCases()) {
-                renderCases();
-                showMessage('Всі дані видалено', 'success');
-            }
-        }
-
-        function syncData() {
-            showMessage('Дані синхронізовано', 'success');
-        }
-
-        function exportData() {
-            const data = {
-                cases: state.cases,
-                statistics: calculateStatistics(),
-                export_date: new Date().toISOString(),
-                version: '1.0'
-            };
-            
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `erdr_export_${new Date().toISOString().split('T')[0]}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-            
-            showMessage('Дані експортовано у файл', 'success');
-        }
-
-        function exportToGitHub() {
-            showMessage('Функція експорту на GitHub у розробці', 'info');
-        }
-
-        // Автоматичне збереження
-        setInterval(() => {
-            if (state.cases.length > 0) {
-                const backup = {
-                    cases: state.cases,
-                    timestamp: new Date().toISOString()
-                };
-                localStorage.setItem(CONFIG.STORAGE_KEYS.backup, JSON.stringify(backup));
-            }
-        }, 300000);
-
-        // Ініціалізація
-        document.addEventListener('DOMContentLoaded', function() {
-            loadCases();
-            loadSession();
+            currentState.cases = [...currentState.cases, ...testCases];
+            DB.saveCases(currentState.cases);
             renderCases();
-            showSection('search');
+            showMessage('Тестові дані додано', 'success');
+        }
+
+        function clearData() {
+            if (!confirm('Видалити всі дані?')) return;
             
-            // Встановлюємо сьогоднішню дату за замовчуванням
-            $('registrationDate').value = new Date().toISOString().split('T')[0];
-        });
+            currentState.cases = [];
+            currentState.session = null;
+            DB.saveCases([]);
+            localStorage.removeItem('erdr_session');
+            renderCases();
+            showMessage('Всі дані видалено', 'success');
+        }
+
+        // Start the application
+        init();
     </script>
 </body>
 </html>
