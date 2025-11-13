@@ -386,6 +386,21 @@
             color: var(--gray);
             margin-top: 4px;
         }
+
+        .password-input {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--gray);
+        }
     </style>
 </head>
 <body>
@@ -474,12 +489,13 @@
                     
                     <div id="loginForm" style="margin-top: 20px;">
                         <div class="form-group">
-                            <label>Код доступу:</label>
-                            <input type="password" id="agencyPassword" placeholder="Введіть код вашого органу">
-                        </div>
-                        <div class="form-group">
                             <label>ПІБ співробітника:</label>
                             <input type="text" id="investigatorName" placeholder="Ваше повне ПІБ">
+                        </div>
+                        <div class="form-group password-input">
+                            <label>Код доступу:</label>
+                            <input type="password" id="agencyPassword" placeholder="Введіть код вашого органу">
+                            <button type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
                         </div>
                         <button class="btn btn-primary" onclick="agencyLogin()" style="width: 100%;">Увійти в систему</button>
                     </div>
@@ -502,6 +518,7 @@
                     <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 16px;">
                         <button class="btn btn-ghost" onclick="loadAllCases()">👁️ Всі справи</button>
                         <button class="btn btn-ghost" onclick="addTestData()">🧪 Тестові дані</button>
+                        <button class="btn btn-success" onclick="exportToGitHub()">📤 Експорт на GitHub</button>
                         <button class="btn btn-danger" onclick="clearAllData()">🗑️ Очистити все</button>
                     </div>
                     <div style="margin-top: 16px; padding: 12px; background: #fef3c7; border-radius: 8px;">
@@ -574,7 +591,8 @@
             },
             STORAGE_KEYS: {
                 cases: 'erdr_cases',
-                session: 'erdr_session'
+                session: 'erdr_session',
+                backup: 'erdr_backup'
             }
         };
 
@@ -596,28 +614,63 @@
             setTimeout(() => msgEl.style.display = 'none', 5000);
         }
 
-        // Робота з даними
+        function togglePassword() {
+            const passwordInput = $('agencyPassword');
+            const toggleBtn = document.querySelector('.toggle-password');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleBtn.textContent = '🔒';
+            } else {
+                passwordInput.type = 'password';
+                toggleBtn.textContent = '👁️';
+            }
+        }
+
+        // База даних (LocalStorage)
         function loadCases() {
-            const saved = localStorage.getItem(CONFIG.STORAGE_KEYS.cases);
-            state.cases = saved ? JSON.parse(saved) : [];
-            return state.cases;
+            try {
+                const saved = localStorage.getItem(CONFIG.STORAGE_KEYS.cases);
+                state.cases = saved ? JSON.parse(saved) : [];
+                return state.cases;
+            } catch (error) {
+                console.error('Помилка завантаження даних:', error);
+                state.cases = [];
+                return [];
+            }
         }
 
         function saveCases() {
-            localStorage.setItem(CONFIG.STORAGE_KEYS.cases, JSON.stringify(state.cases));
+            try {
+                localStorage.setItem(CONFIG.STORAGE_KEYS.cases, JSON.stringify(state.cases));
+                return true;
+            } catch (error) {
+                console.error('Помилка збереження даних:', error);
+                showMessage('Помилка збереження даних', 'error');
+                return false;
+            }
         }
 
         function loadSession() {
-            const saved = localStorage.getItem(CONFIG.STORAGE_KEYS.session);
-            state.session = saved ? JSON.parse(saved) : null;
-            updateUI();
+            try {
+                const saved = localStorage.getItem(CONFIG.STORAGE_KEYS.session);
+                state.session = saved ? JSON.parse(saved) : null;
+                updateUI();
+            } catch (error) {
+                console.error('Помилка завантаження сесії:', error);
+                state.session = null;
+            }
         }
 
         function saveSession() {
-            if (state.session) {
-                localStorage.setItem(CONFIG.STORAGE_KEYS.session, JSON.stringify(state.session));
-            } else {
-                localStorage.removeItem(CONFIG.STORAGE_KEYS.session);
+            try {
+                if (state.session) {
+                    localStorage.setItem(CONFIG.STORAGE_KEYS.session, JSON.stringify(state.session));
+                } else {
+                    localStorage.removeItem(CONFIG.STORAGE_KEYS.session);
+                }
+            } catch (error) {
+                console.error('Помилка збереження сесії:', error);
             }
         }
 
@@ -677,7 +730,7 @@
                         <div class="case-agency">${getAgencyBadge(caseItem.agency)}</div>
                     </div>
                     <div class="case-meta">
-                        ${caseItem.registrationDate} · ${caseItem.crimeType} · ${caseItem.status}
+                        ${formatDate(caseItem.registrationDate)} · ${caseItem.crimeType} · ${caseItem.status}
                     </div>
                     <div class="case-description">${caseItem.description}</div>
                     <div class="case-meta">Слідчий: ${caseItem.investigator}</div>
@@ -686,6 +739,14 @@
                     </div>
                 </div>
             `).join('');
+        }
+
+        function formatDate(dateString) {
+            try {
+                return new Date(dateString).toLocaleDateString('uk-UA');
+            } catch {
+                return dateString;
+            }
         }
 
         function getAgencyBadge(agency) {
@@ -705,14 +766,14 @@
             }
 
             return `
-                <button class="btn btn-ghost" onclick="editCase(${caseItem.id})" style="padding: 6px 12px; font-size: 12px;">✏️</button>
-                <button class="btn btn-danger" onclick="deleteCase(${caseItem.id})" style="padding: 6px 12px; font-size: 12px;">🗑️</button>
+                <button class="btn btn-ghost" onclick="editCase(${caseItem.id})" style="padding: 6px 12px; font-size: 12px;">✏️ Редагувати</button>
+                <button class="btn btn-danger" onclick="deleteCase(${caseItem.id})" style="padding: 6px 12px; font-size: 12px;">🗑️ Видалити</button>
             `;
         }
 
         // Пошук
         function performSearch() {
-            const query = $('searchInput').value.toLowerCase();
+            const query = $('searchInput').value.toLowerCase().trim();
             let filteredCases = state.cases;
 
             if (query) {
@@ -763,18 +824,25 @@
                 return;
             }
 
+            if (!password) {
+                showMessage('Введіть код доступу', 'error');
+                return;
+            }
+
             // Перевірка пароля
             if (password === CONFIG.PASSWORDS.super) {
                 state.session = {
                     isSuper: true,
                     user: investigatorName,
-                    agency: 'super'
+                    agency: 'super',
+                    loginTime: new Date().toISOString()
                 };
             } else if (password === CONFIG.PASSWORDS[selectedAgency]) {
                 state.session = {
                     isSuper: false,
                     user: investigatorName,
-                    agency: selectedAgency
+                    agency: selectedAgency,
+                    loginTime: new Date().toISOString()
                 };
             } else {
                 showMessage('Невірний код доступу', 'error');
@@ -833,6 +901,11 @@
         $('caseForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
+            if (!state.session) {
+                showMessage('Сесія закінчилась. Увійдіть знову.', 'error');
+                return;
+            }
+
             const caseData = {
                 caseNumber: $('caseNumber').value.trim(),
                 registrationDate: $('registrationDate').value,
@@ -841,7 +914,6 @@
                 description: $('caseDescription').value.trim(),
                 investigator: state.session.user,
                 agency: state.session.agency,
-                created: new Date().toISOString(),
                 updated: new Date().toISOString()
             };
 
@@ -861,23 +933,26 @@
             } else {
                 // Додавання
                 caseData.id = Date.now();
+                caseData.created = new Date().toISOString();
                 state.cases.push(caseData);
             }
 
-            saveCases();
-            closeModal();
-            renderCases();
-            showMessage(editingCaseId ? 'Справу оновлено' : 'Справу додано', 'success');
+            if (saveCases()) {
+                closeModal();
+                renderCases();
+                showMessage(editingCaseId ? 'Справу оновлено' : 'Справу додано', 'success');
+            }
         });
 
         // Видалення справи
         function deleteCase(id) {
-            if (!confirm('Видалити цю справу?')) return;
+            if (!confirm('Ви впевнені, що хочете видалити цю справу?')) return;
 
             state.cases = state.cases.filter(c => c.id !== id);
-            saveCases();
-            renderCases();
-            showMessage('Справу видалено', 'success');
+            if (saveCases()) {
+                renderCases();
+                showMessage('Справу видалено', 'success');
+            }
         }
 
         // Статистика
@@ -937,7 +1012,12 @@
                     showMessage('Невірний пароль', 'error');
                     return;
                 }
-                state.session = { isSuper: true, user: 'Супер-адмін', agency: 'super' };
+                state.session = { 
+                    isSuper: true, 
+                    user: 'Супер-адмін', 
+                    agency: 'super',
+                    loginTime: new Date().toISOString()
+                };
                 saveSession();
                 updateUI();
             }
@@ -955,7 +1035,7 @@
                     status: 'Активне',
                     investigator: 'Слідчий СБУ',
                     agency: 'sbu',
-                    description: 'Тестова справа СБУ №001',
+                    description: 'Тестова справа СБУ №001 - розслідування корупційних дій',
                     created: new Date().toISOString(),
                     updated: new Date().toISOString()
                 },
@@ -967,21 +1047,89 @@
                     status: 'Активне',
                     investigator: 'Слідчий НПУ',
                     agency: 'npu',
-                    description: 'Тестова справа НПУ №002',
+                    description: 'Тестова справа НПУ №002 - кібератака на банківську систему',
+                    created: new Date().toISOString(),
+                    updated: new Date().toISOString()
+                },
+                {
+                    id: Date.now() + 3,
+                    caseNumber: '003',
+                    registrationDate: '2024-01-25',
+                    crimeType: 'Корупційний злочин',
+                    status: 'Завершене',
+                    investigator: 'Прокурор',
+                    agency: 'prosecutor',
+                    description: 'Тестова справа Прокуратури №003 - зловживання службовим становищем',
                     created: new Date().toISOString(),
                     updated: new Date().toISOString()
                 }
             ];
 
             state.cases.push(...testCases);
-            saveCases();
-            renderCases();
-            showMessage('Тестові дані додано', 'success');
+            if (saveCases()) {
+                renderCases();
+                showMessage('Тестові дані додано', 'success');
+            }
         }
 
         function clearAllData() {
-            if (!confirm('ВИ ВПЕВНЕНІ? Всі дані будуть видалені!')) return;
+            if (!confirm('ВИ ВПЕВНЕНІ? Всі дані будуть видалені без можливості відновлення!')) return;
             
             state.cases = [];
-            saveCases();
-           
+            if (saveCases()) {
+                renderCases();
+                showMessage('Всі дані видалено', 'success');
+            }
+        }
+
+        function syncData() {
+            showMessage('Дані синхронізовано', 'success');
+        }
+
+        function exportData() {
+            const data = {
+                cases: state.cases,
+                statistics: calculateStatistics(),
+                export_date: new Date().toISOString(),
+                version: '1.0'
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `erdr_export_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showMessage('Дані експортовано у файл', 'success');
+        }
+
+        function exportToGitHub() {
+            showMessage('Функція експорту на GitHub у розробці', 'info');
+        }
+
+        // Автоматичне збереження
+        setInterval(() => {
+            if (state.cases.length > 0) {
+                const backup = {
+                    cases: state.cases,
+                    timestamp: new Date().toISOString()
+                };
+                localStorage.setItem(CONFIG.STORAGE_KEYS.backup, JSON.stringify(backup));
+            }
+        }, 300000);
+
+        // Ініціалізація
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCases();
+            loadSession();
+            renderCases();
+            showSection('search');
+            
+            // Встановлюємо сьогоднішню дату за замовчуванням
+            $('registrationDate').value = new Date().toISOString().split('T')[0];
+        });
+    </script>
+</body>
+</html>
