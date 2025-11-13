@@ -24,51 +24,27 @@
         }
 
         .header {
-            background: rgba(255, 255, 255, 0.95);
+            background: white;
             padding: 20px;
-            border-radius: 15px;
+            border-radius: 10px;
             margin-bottom: 20px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .header h1 {
-            color: #1e40af;
-            margin-bottom: 5px;
             text-align: center;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 25px;
-            border-radius: 15px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
             margin-bottom: 20px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .btn {
-            padding: 12px 24px;
+            padding: 10px 20px;
             border: none;
-            border-radius: 8px;
+            border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
             margin: 5px;
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        .btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
         .btn-primary {
@@ -86,21 +62,10 @@
             color: white;
         }
 
-        .btn-warning {
-            background: #d97706;
-            color: white;
-        }
-
         .grid {
             display: grid;
-            grid-template-columns: 1fr 350px;
+            grid-template-columns: 1fr 300px;
             gap: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
         }
 
         .search-box {
@@ -111,79 +76,41 @@
 
         .search-box input {
             flex: 1;
-            padding: 12px;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s ease;
-        }
-
-        .search-box input:focus {
-            border-color: #2563eb;
-            outline: none;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
 
         .case-item {
-            border: 2px solid #e5e7eb;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            background: white;
+            border: 1px solid #e5e7eb;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
         }
 
-        .case-item:hover {
-            border-color: #2563eb;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
-        }
-
-        .case-number {
-            font-weight: bold;
-            color: #1e40af;
-            font-size: 18px;
-        }
-
-        .agency-badge {
-            background: #1e40af;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .security-badge {
-            background: #dc2626;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 10px;
-            margin-left: 8px;
+        .personnel-section {
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 3px solid #2563eb;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #374151;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
 
         .form-group input, .form-group select, .form-group textarea {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            border-color: #2563eb;
-            outline: none;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
 
         .modal {
@@ -193,8 +120,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.5);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -202,247 +128,107 @@
 
         .modal-content {
             background: white;
-            padding: 30px;
-            border-radius: 20px;
+            padding: 20px;
+            border-radius: 10px;
             width: 90%;
             max-width: 500px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
-        .message {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            font-weight: 600;
-            border-left: 4px solid;
-        }
-
-        .message.success {
-            background: #f0fdf4;
-            color: #166534;
-            border-color: #22c55e;
-        }
-
-        .message.error {
-            background: #fef2f2;
-            color: #991b1b;
-            border-color: #ef4444;
-        }
-
-        .message.warning {
-            background: #fffbeb;
-            color: #92400e;
-            border-color: #f59e0b;
-        }
-
-        .password-toggle {
-            position: relative;
-        }
-
-        .password-toggle button {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #6b7280;
-            padding: 5px;
-        }
-
-        .user-info {
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 15px;
-            border: 2px solid #e2e8f0;
-        }
-
-        .security-features {
-            background: #fef2f2;
-            border: 2px solid #fecaca;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-        }
-
-        .attempts-warning {
+        .security-warning {
             background: #fef3c7;
-            border: 2px solid #fcd34d;
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 10px;
+            border: 1px solid #f59e0b;
+            padding: 8px;
+            border-radius: 5px;
+            margin: 10px 0;
             font-size: 12px;
             display: none;
         }
 
-        .blocked-warning {
-            background: #fee2e2;
-            border: 2px solid #fecaca;
-            padding: 15px;
-            border-radius: 8px;
+        .personnel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
             margin-top: 10px;
-            font-size: 12px;
-            display: none;
         }
 
-        .session-timer {
-            background: #3b82f6;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-left: 10px;
-        }
-
-        .security-indicator {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-
-        .security-indicator.secure {
-            background: #10b981;
-        }
-
-        .security-indicator.warning {
-            background: #f59e0b;
-        }
-
-        .security-indicator.danger {
-            background: #ef4444;
+        .personnel-item {
+            background: white;
+            padding: 8px;
+            border-radius: 3px;
+            border: 1px solid #e5e7eb;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <header class="header">
-            <h1>🔐 Єдиний реєстр досудових розслідувань</h1>
-            <p style="text-align: center; color: #6b7280;">Система підвищеної конфіденційності</p>
+            <h1>Єдиний реєстр досудових розслідувань</h1>
+            <p>Захищена система з персоналом</p>
         </header>
 
-        <!-- Security Messages -->
-        <div class="message warning" id="securityAlert" style="display: none;">
-            <span class="security-indicator warning"></span>
-            <strong>Система безпеки:</strong> <span id="alertText"></span>
-        </div>
-
-        <!-- Main Content -->
         <div class="grid">
-            <!-- Left Column -->
             <main>
-                <!-- Search Section -->
-                <section class="card" id="searchSection">
-                    <h3>🔍 Пошук справ</h3>
+                <section class="card">
+                    <h3>🔍 Справи</h3>
                     <div class="search-box">
-                        <input type="text" id="searchInput" placeholder="Номер справи, слідчий, опис...">
+                        <input type="text" id="searchInput" placeholder="Пошук...">
                         <button class="btn btn-primary" onclick="searchCases()">Пошук</button>
-                        <button class="btn" onclick="clearSearch()">Очистити</button>
                     </div>
                     <div id="casesList">
-                        <div style="text-align: center; padding: 40px; color: #666;">
-                            🔒 Для перегляду справ необхідно авторизуватись
-                        </div>
+                        <!-- Справи будуть тут -->
                     </div>
                 </section>
             </main>
 
-            <!-- Right Column -->
             <aside>
-                <!-- Login Panel -->
                 <section class="card" id="loginSection">
-                    <h3>🛡️ Авторизація</h3>
-                    
-                    <div class="security-features">
-                        <strong>⚡ Активовані функції безпеки:</strong>
-                        <div style="font-size: 12px; margin-top: 8px;">
-                            • Блокування при 3 невдалих спробах<br>
-                            • Автоматичний вихід через 30 хв<br>
-                            • Шифрування локальних даних<br>
-                            • Журнал аудиту подій
-                        </div>
+                    <h3>🔐 Вхід</h3>
+                    <div id="securityWarning" class="security-warning">
+                        ⚠️ Залишилось спроб: <span id="attemptsCount">3</span>
                     </div>
-
+                    
                     <div class="form-group">
                         <label>Орган:</label>
                         <select id="agencySelect">
-                            <option value="">-- Оберіть орган --</option>
                             <option value="sbu">СБУ</option>
-                            <option value="npu">Національна поліція</option>
+                            <option value="npu">НПУ</option>
                             <option value="prosecutor">Прокуратура</option>
                         </select>
                     </div>
-                    
                     <div class="form-group">
-                        <label>ПІБ співробітника:</label>
-                        <input type="text" id="userName" placeholder="Ваше ПІБ" maxlength="50">
+                        <label>ПІБ:</label>
+                        <input type="text" id="userName" placeholder="Введіть ваше ПІБ">
                     </div>
+                    <div class="form-group">
+                        <label>Пароль:</label>
+                        <input type="password" id="password" placeholder="Введіть пароль">
+                    </div>
+                    <button class="btn btn-primary" onclick="login()" style="width: 100%;">Увійти</button>
                     
-                    <div class="form-group password-toggle">
-                        <label>Службовий пароль:</label>
-                        <input type="password" id="password" placeholder="Введіть пароль" style="padding-right: 50px;">
-                        <button type="button" onclick="togglePassword()">👁️</button>
-                    </div>
-
-                    <div id="attemptsWarning" class="attempts-warning">
-                        ⚠️ <strong>Увага:</strong> Залишилось спроб: <span id="attemptsCount">3</span>
-                    </div>
-
-                    <div id="blockedWarning" class="blocked-warning">
-                        🚫 <strong>Система заблокована:</strong> <span id="blockedTime">15</span> хв
-                    </div>
-
-                    <button class="btn btn-primary" id="loginBtn" onclick="login()" style="width: 100%; margin-top: 10px;">
-                        <span class="security-indicator secure"></span>🔑 Увійти в систему
-                    </button>
-                    
-                    <div class="user-info">
-                        <strong>📋 Інструкція:</strong>
-                        <div style="font-size: 12px; margin-top: 8px;">
-                            1. Оберіть ваш орган<br>
-                            2. Введіть службове ПІБ<br>
-                            3. Використовуйте службовий пароль<br>
-                            4. Система веде журнал доступу
-                        </div>
+                    <div style="margin-top: 15px; padding: 10px; background: #f3f4f6; border-radius: 5px; font-size: 12px;">
+                        <strong>Інструкція:</strong><br>
+                        1. Оберіть ваш орган<br>
+                        2. Введіть службове ПІБ<br>
+                        3. Використовуйте службовий пароль
                     </div>
                 </section>
 
-                <!-- User Panel -->
                 <section class="card" id="userSection" style="display: none;">
-                    <h3>👤 Поточний сеанс <span id="sessionTimer" class="session-timer">30:00</span></h3>
-                    
-                    <div class="user-info">
-                        <div id="userDetails"></div>
-                    </div>
-
-                    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
-                        <button class="btn btn-success" onclick="addCase()">
-                            ➕ Додати справу
-                        </button>
-                        <button class="btn btn-warning" onclick="generateReport()">
-                            📊 Звіт по відділу
-                        </button>
-                        <button class="btn" onclick="showAuditLog()">
-                            📋 Журнал аудиту
-                        </button>
-                        <button class="btn btn-danger" onclick="logout()">
-                            🚪 Безпечний вихід
-                        </button>
-                    </div>
+                    <h3>👤 Користувач</h3>
+                    <div id="userDetails"></div>
+                    <button class="btn btn-success" onclick="addCase()" style="width: 100%; margin: 10px 0;">➕ Додати справу</button>
+                    <button class="btn btn-danger" onclick="logout()" style="width: 100%;">Вийти</button>
                 </section>
             </aside>
         </div>
     </div>
 
-    <!-- Add Case Modal -->
+    <!-- Модальное окно -->
     <div class="modal" id="modal">
         <div class="modal-content">
-            <h3 id="modalTitle">📁 Додати справу</h3>
+            <h3>📁 Додати справу</h3>
             <form onsubmit="saveCase(event)">
                 <div class="form-group">
                     <label>Номер справи:</label>
@@ -458,309 +244,175 @@
                         <option value="Кримінальне">Кримінальне правопорушення</option>
                         <option value="Кіберзлочин">Кіберзлочинність</option>
                         <option value="Корупція">Корупційний злочин</option>
+                        <option value="Економічний">Економічний злочин</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Статус:</label>
+                    <select id="caseStatus" required>
+                        <option value="Нова">Нова</option>
+                        <option value="В розслідуванні">В розслідуванні</option>
+                        <option value="Завершена">Завершена</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Опис справи:</label>
-                    <textarea id="caseDescription" rows="4" required></textarea>
+                    <textarea id="caseDescription" rows="3" required></textarea>
                 </div>
-                <div style="text-align: right; margin-top: 25px;">
+
+                <!-- Персонал -->
+                <div class="personnel-section">
+                    <h4>👥 Прикріплений персонал</h4>
+                    <div class="personnel-grid">
+                        <div class="personnel-item">
+                            <label style="font-size: 12px; color: #666;">⚖️ Суддя:</label>
+                            <input type="text" id="assignedJudge" placeholder="ПІБ судді" style="border: none; background: transparent; width: 100%;">
+                        </div>
+                        <div class="personnel-item">
+                            <label style="font-size: 12px; color: #666;">👨‍⚖️ Прокурор:</label>
+                            <input type="text" id="assignedProsecutor" placeholder="ПІБ прокурора" style="border: none; background: transparent; width: 100%;">
+                        </div>
+                        <div class="personnel-item">
+                            <label style="font-size: 12px; color: #666;">🛡️ Керівник:</label>
+                            <input type="text" id="investigationHead" placeholder="ПІБ керівника" style="border: none; background: transparent; width: 100%;">
+                        </div>
+                        <div class="personnel-item">
+                            <label style="font-size: 12px; color: #666;">🔍 Слідчий:</label>
+                            <input type="text" id="additionalInvestigator" placeholder="ПІБ слідчого" style="border: none; background: transparent; width: 100%;">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: right; margin-top: 20px;">
                     <button type="button" class="btn" onclick="closeModal()">Скасувати</button>
-                    <button type="submit" class="btn btn-primary">💾 Зберегти справу</button>
+                    <button type="submit" class="btn btn-primary">💾 Зберегти</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
-        // Конфигурация безопасности
-        const SECURITY_CONFIG = {
-            maxAttempts: 3,
-            sessionTimeout: 30 * 60 * 1000, // 30 минут
-            blockDuration: 15 * 60 * 1000, // 15 минут блокировки
-            auditLogSize: 100
-        };
+        // МИНИМАЛЬНАЯ СИСТЕМА БЕЗОПАСНОСТИ
+        let loginAttempts = 0;
+        const MAX_ATTEMPTS = 3;
+        let isBlocked = false;
 
-        // База паролей (в реальной системе это должно быть на сервере)
+        // ПАРОЛИ (СКРЫТЫ ОТ ПОЛЬЗОВАТЕЛЕЙ)
         const PASSWORDS = {
             sbu: ['SBU001', 'SBU002', 'SBU003', 'SBU004', 'SBU005', 'SBU006', 'SBU007', 'SBU008', 'SBU009', 'SBU010'],
             npu: ['NPU101', 'NPU102', 'NPU103', 'NPU104', 'NPU105', 'NPU106', 'NPU107', 'NPU108', 'NPU109'],
             prosecutor: ['PROC1', 'PROC2', 'PROC3', 'PROC4', 'PROC5']
         };
 
-        // Глобальное состояние безопасности
-        let securityState = {
-            loginAttempts: 0,
-            lastAttemptTime: 0,
-            blockedUntil: 0,
-            sessionTimer: null,
-            auditLog: []
-        };
-
-        // База данных с безопасностью
+        // БАЗА ДАННЫХ
         const DB = {
-            // Изолированные базы для каждого органа
-            getAgencyCases: (agency) => {
-                try {
-                    const data = localStorage.getItem(`erdr_${agency}_cases`);
-                    return data ? JSON.parse(data) : [];
-                } catch (e) {
-                    this.logSecurityEvent('DATA_CORRUPTION', { agency, error: e.message });
-                    return [];
-                }
+            getCases: (agency) => {
+                return JSON.parse(localStorage.getItem(`cases_${agency}`) || '[]');
             },
-
-            saveAgencyCases: (agency, cases) => {
-                try {
-                    localStorage.setItem(`erdr_${agency}_cases`, JSON.stringify(cases));
-                    return true;
-                } catch (e) {
-                    this.logSecurityEvent('SAVE_FAILED', { agency, error: e.message });
-                    return false;
-                }
+            saveCases: (agency, cases) => {
+                localStorage.setItem(`cases_${agency}`, JSON.stringify(cases));
             },
-
-            // Управление сессией с expiration
-            getSession: () => {
-                const session = localStorage.getItem('erdr_secure_session');
-                if (!session) return null;
-
-                try {
-                    const data = JSON.parse(session);
-                    // Проверка истечения срока сессии
-                    if (Date.now() > data.expires) {
-                        this.clearSession();
-                        return null;
-                    }
-                    return data;
-                } catch {
-                    this.clearSession();
-                    return null;
-                }
+            getSecurity: () => {
+                return JSON.parse(localStorage.getItem('security') || '{"attempts":0,"blocked":false}');
             },
-
-            saveSession: (sessionData) => {
-                const session = {
-                    ...sessionData,
-                    created: Date.now(),
-                    expires: Date.now() + SECURITY_CONFIG.sessionTimeout,
-                    sessionId: this.generateSessionId()
-                };
-                localStorage.setItem('erdr_secure_session', JSON.stringify(session));
-                return session.sessionId;
-            },
-
-            clearSession: () => {
-                localStorage.removeItem('erdr_secure_session');
-            },
-
-            // Функции безопасности
-            logSecurityEvent: (eventType, details = {}) => {
-                const event = {
-                    timestamp: new Date().toISOString(),
-                    type: eventType,
-                    userAgent: navigator.userAgent,
-                    ...details
-                };
-                
-                securityState.auditLog.unshift(event);
-                // Сохраняем только последние N событий
-                securityState.auditLog = securityState.auditLog.slice(0, SECURITY_CONFIG.auditLogSize);
-                localStorage.setItem('erdr_audit_log', JSON.stringify(securityState.auditLog));
-            },
-
-            generateSessionId: () => {
-                return 'SESS_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            },
-
-            // Состояние безопасности
-            getSecurityState: () => {
-                const saved = localStorage.getItem('erdr_security_state');
-                return saved ? JSON.parse(saved) : { loginAttempts: 0, blockedUntil: 0 };
-            },
-
-            saveSecurityState: (state) => {
-                localStorage.setItem('erdr_security_state', JSON.stringify(state));
+            saveSecurity: (security) => {
+                localStorage.setItem('security', JSON.stringify(security));
             }
         };
 
-        // Состояние приложения
-        let currentState = {
-            session: null,
-            editingCase: null
-        };
+        let currentUser = null;
 
-        // Инициализация системы безопасности
-        function initSecuritySystem() {
-            // Загружаем состояние безопасности
-            const savedState = DB.getSecurityState();
-            securityState = { ...securityState, ...savedState };
+        // ИНИЦИАЛИЗАЦИЯ
+        function init() {
+            const security = DB.getSecurity();
+            loginAttempts = security.attempts || 0;
+            isBlocked = security.blocked || false;
             
-            // Загружаем журнал аудита
-            const savedLog = localStorage.getItem('erdr_audit_log');
-            if (savedLog) {
-                securityState.auditLog = JSON.parse(savedLog);
-            }
-            
-            // Проверяем блокировку системы
-            checkSystemBlockStatus();
-            
-            // Проверяем активную сессию
-            const session = DB.getSession();
-            if (session) {
-                currentState.session = session;
-                startSessionTimer();
-                updateUI();
-                loadAgencyCases();
-                DB.logSecurityEvent('SESSION_RESUMED', { 
-                    user: session.user, 
-                    agency: session.agency 
-                });
-            }
-            
-            DB.logSecurityEvent('SYSTEM_START');
-        }
-
-        function checkSystemBlockStatus() {
-            if (securityState.blockedUntil > Date.now()) {
-                const minutesLeft = Math.ceil((securityState.blockedUntil - Date.now()) / 60000);
-                showSecurityAlert(`Система заблокована через підозрілу активність. Спробуйте через ${minutesLeft} хв.`);
-                updateBlockedWarning(minutesLeft);
-                disableLoginForm();
-            } else if (securityState.blockedUntil > 0) {
-                // Период блокировки закончился
-                securityState.blockedUntil = 0;
-                securityState.loginAttempts = 0;
-                DB.saveSecurityState(securityState);
-                hideSecurityAlert();
-                enableLoginForm();
+            if (isBlocked) {
+                blockSystem();
+            } else {
+                updateSecurityWarning();
             }
         }
 
-        function updateBlockedWarning(minutesLeft) {
-            document.getElementById('blockedTime').textContent = minutesLeft;
-            document.getElementById('blockedWarning').style.display = 'block';
-            document.getElementById('attemptsWarning').style.display = 'none';
-        }
-
-        function disableLoginForm() {
-            document.getElementById('agencySelect').disabled = true;
-            document.getElementById('userName').disabled = true;
-            document.getElementById('password').disabled = true;
-            document.getElementById('loginBtn').disabled = true;
-        }
-
-        function enableLoginForm() {
-            document.getElementById('agencySelect').disabled = false;
-            document.getElementById('userName').disabled = false;
-            document.getElementById('password').disabled = false;
-            document.getElementById('loginBtn').disabled = false;
-            document.getElementById('blockedWarning').style.display = 'none';
-        }
-
-        // ОСНОВНАЯ ФУНКЦИЯ ВХОДА С БЕЗОПАСНОСТЬЮ
+        // ФУНКЦИЯ ВХОДА С ЗАЩИТОЙ
         function login() {
+            if (isBlocked) {
+                alert('🚫 Система заблокована! Спробуйте пізніше.');
+                return;
+            }
+
             const agency = document.getElementById('agencySelect').value;
             const userName = document.getElementById('userName').value.trim();
             const password = document.getElementById('password').value;
 
-            // Валидация ввода
-            if (!agency) {
-                showSecurityAlert('Оберіть орган для входу');
-                return;
-            }
-
             if (!userName) {
-                showSecurityAlert('Введіть службове ПІБ');
+                alert('Введіть ПІБ співробітника');
                 return;
             }
 
             if (!password) {
-                showSecurityAlert('Введіть службовий пароль');
+                alert('Введіть пароль');
                 return;
             }
 
-            // Проверка блокировки системы
-            if (securityState.blockedUntil > Date.now()) {
-                showSecurityAlert('Система тимчасово заблокована');
-                return;
-            }
-
-            // Проверка учетных данных
-            if (validateCredentials(agency, password)) {
-                handleSuccessfulLogin(agency, userName, password);
-            } else {
-                handleFailedLogin(agency, userName);
-            }
-        }
-
-        function validateCredentials(agency, password) {
-            return PASSWORDS[agency] && PASSWORDS[agency].includes(password);
-        }
-
-        function handleSuccessfulLogin(agency, userName, password) {
-            // Сбрасываем счетчик попыток
-            securityState.loginAttempts = 0;
-            DB.saveSecurityState(securityState);
-            
-            const userId = generateUserId(agency, password);
-            const sessionId = DB.saveSession({
-                agency: agency,
-                user: userName,
-                userId: userId,
-                loginTime: new Date().toISOString()
-            });
-
-            currentState.session = DB.getSession();
-            
-            DB.logSecurityEvent('LOGIN_SUCCESS', { 
-                user: userName, 
-                agency: agency, 
-                userId: userId,
-                sessionId: sessionId 
-            });
-
-            showMessage(`Успішна авторизація! ID: ${userId}`, 'success');
-            updateUI();
-            startSessionTimer();
-            loadAgencyCases();
-            hideSecurityAlert();
-        }
-
-        function handleFailedLogin(agency, userName) {
-            securityState.loginAttempts++;
-            securityState.lastAttemptTime = Date.now();
-            
-            const attemptsLeft = SECURITY_CONFIG.maxAttempts - securityState.loginAttempts;
-            
-            DB.logSecurityEvent('LOGIN_FAILED', { 
-                attemptedUser: userName, 
-                agency: agency,
-                attempts: securityState.loginAttempts 
-            });
-
-            if (securityState.loginAttempts >= SECURITY_CONFIG.maxAttempts) {
-                // Блокируем систему
-                securityState.blockedUntil = Date.now() + SECURITY_CONFIG.blockDuration;
-                DB.saveSecurityState(securityState);
+            // ПРОВЕРКА ПАРОЛЯ
+            if (PASSWORDS[agency].includes(password)) {
+                // УСПЕШНЫЙ ВХОД
+                loginAttempts = 0;
+                isBlocked = false;
+                DB.saveSecurity({ attempts: loginAttempts, blocked: isBlocked });
                 
-                showSecurityAlert('Система заблокована через підозрілу активність!');
-                disableLoginForm();
+                currentUser = {
+                    agency: agency,
+                    user: userName,
+                    userId: generateUserId(agency, password)
+                };
                 
-                DB.logSecurityEvent('SYSTEM_BLOCKED', { 
-                    reason: 'MAX_ATTEMPTS_EXCEEDED',
-                    duration: SECURITY_CONFIG.blockDuration 
-                });
+                updateUI();
+                loadCases();
+                document.getElementById('securityWarning').style.display = 'none';
+                alert('✅ Успішний вхід!');
                 
             } else {
-                showSecurityAlert(`Невірний пароль! Залишилось спроб: ${attemptsLeft}`);
-                updateAttemptsWarning(attemptsLeft);
+                // НЕУДАЧНАЯ ПОПЫТКА
+                loginAttempts++;
+                DB.saveSecurity({ attempts: loginAttempts, blocked: isBlocked });
+                
+                if (loginAttempts >= MAX_ATTEMPTS) {
+                    blockSystem();
+                    alert('🚫 Система заблокована на 5 хвилин!');
+                } else {
+                    updateSecurityWarning();
+                    alert(`❌ Невірний пароль! Залишилось спроб: ${MAX_ATTEMPTS - loginAttempts}`);
+                }
             }
         }
 
-        function updateAttemptsWarning(attemptsLeft) {
-            document.getElementById('attemptsCount').textContent = attemptsLeft;
-            document.getElementById('attemptsWarning').style.display = 'block';
+        function blockSystem() {
+            isBlocked = true;
+            DB.saveSecurity({ attempts: loginAttempts, blocked: isBlocked });
+            document.getElementById('securityWarning').style.display = 'block';
+            document.getElementById('securityWarning').innerHTML = '🚫 Система заблокована! Спробуйте через 5 хвилин.';
+            document.querySelector('#loginSection .btn-primary').disabled = true;
+            
+            // РАЗБЛОКИРОВКА ЧЕРЕЗ 5 МИНУТ
+            setTimeout(() => {
+                isBlocked = false;
+                loginAttempts = 0;
+                DB.saveSecurity({ attempts: 0, blocked: false });
+                document.getElementById('securityWarning').style.display = 'none';
+                document.querySelector('#loginSection .btn-primary').disabled = false;
+            }, 5 * 60 * 1000);
+        }
+
+        function updateSecurityWarning() {
+            if (loginAttempts > 0) {
+                document.getElementById('securityWarning').style.display = 'block';
+                document.getElementById('attemptsCount').textContent = MAX_ATTEMPTS - loginAttempts;
+            } else {
+                document.getElementById('securityWarning').style.display = 'none';
+            }
         }
 
         function generateUserId(agency, password) {
@@ -769,134 +421,29 @@
             return `${prefixes[agency]}${index.toString().padStart(2, '0')}`;
         }
 
-        // Таймер сессии
-        function startSessionTimer() {
-            if (securityState.sessionTimer) {
-                clearInterval(securityState.sessionTimer);
-            }
-
-            securityState.sessionTimer = setInterval(() => {
-                if (!currentState.session) return;
-
-                const timeLeft = currentState.session.expires - Date.now();
-                if (timeLeft <= 0) {
-                    autoLogout();
-                    return;
-                }
-
-                const minutes = Math.floor(timeLeft / 60000);
-                const seconds = Math.floor((timeLeft % 60000) / 1000);
-                document.getElementById('sessionTimer').textContent = 
-                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
-                // Предупреждение за 5 минут
-                if (timeLeft <= 5 * 60 * 1000) {
-                    document.getElementById('sessionTimer').style.background = '#dc2626';
-                }
-            }, 1000);
-        }
-
-        function autoLogout() {
-            DB.logSecurityEvent('SESSION_EXPIRED', { 
-                user: currentState.session.user,
-                agency: currentState.session.agency 
-            });
-            
-            showSecurityAlert('Сесія закінчилась через неактивність');
-            logout();
-        }
-
         function logout() {
-            if (currentState.session) {
-                DB.logSecurityEvent('LOGOUT', { 
-                    user: currentState.session.user,
-                    agency: currentState.session.agency 
-                });
-            }
-
-            currentState.session = null;
-            DB.clearSession();
-            
-            if (securityState.sessionTimer) {
-                clearInterval(securityState.sessionTimer);
-                securityState.sessionTimer = null;
-            }
-
-            showMessage('Безпечний вихід з системи', 'success');
+            currentUser = null;
             updateUI();
-            document.getElementById('casesList').innerHTML = 
-                '<div style="text-align: center; padding: 40px; color: #666;">🔒 Для перегляду справ необхідно авторизуватись</div>';
+            document.getElementById('casesList').innerHTML = '';
         }
 
-        // UI функции
         function updateUI() {
-            const loginSection = document.getElementById('loginSection');
-            const userSection = document.getElementById('userSection');
-            const userDetails = document.getElementById('userDetails');
-
-            if (currentState.session) {
-                loginSection.style.display = 'none';
-                userSection.style.display = 'block';
-                
-                userDetails.innerHTML = `
-                    <strong>Орган:</strong> ${getAgencyName(currentState.session.agency)}<br>
-                    <strong>Користувач:</strong> ${currentState.session.user}<br>
-                    <strong>ID:</strong> ${currentState.session.userId}<br>
-                    <strong>Сесія:</strong> ${new Date(currentState.session.created).toLocaleString()}
+            if (currentUser) {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('userSection').style.display = 'block';
+                document.getElementById('userDetails').innerHTML = `
+                    <strong>Орган:</strong> ${currentUser.agency.toUpperCase()}<br>
+                    <strong>Користувач:</strong> ${currentUser.user}<br>
+                    <strong>ID:</strong> ${currentUser.userId}
                 `;
             } else {
-                loginSection.style.display = 'block';
-                userSection.style.display = 'none';
+                document.getElementById('loginSection').style.display = 'block';
+                document.getElementById('userSection').style.display = 'none';
             }
         }
 
-        function showSecurityAlert(message) {
-            const alert = document.getElementById('securityAlert');
-            document.getElementById('alertText').textContent = message;
-            alert.style.display = 'block';
-        }
-
-        function hideSecurityAlert() {
-            document.getElementById('securityAlert').style.display = 'none';
-        }
-
-        function showMessage(text, type) {
-            const message = document.createElement('div');
-            message.className = `message ${type}`;
-            message.textContent = text;
-            
-            const container = document.querySelector('.container');
-            container.insertBefore(message, container.firstChild);
-            
-            setTimeout(() => {
-                if (message.parentNode) {
-                    message.parentNode.removeChild(message);
-                }
-            }, 5000);
-        }
-
-        function togglePassword() {
-            const passwordInput = document.getElementById('password');
-            const toggleButton = document.querySelector('.password-toggle button');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                toggleButton.textContent = '🔒';
-            } else {
-                passwordInput.type = 'password';
-                toggleButton.textContent = '👁️';
-            }
-        }
-
-        function getAgencyName(agency) {
-            const names = { sbu: 'СБУ', npu: 'НПУ', prosecutor: 'Прокуратура' };
-            return names[agency] || agency;
-        }
-
-        // Управление делами
-        function loadAgencyCases() {
-            if (!currentState.session) return;
-            const cases = DB.getAgencyCases(currentState.session.agency);
+        function loadCases() {
+            const cases = DB.getCases(currentUser.agency);
             renderCases(cases);
         }
 
@@ -910,26 +457,32 @@
 
             let html = '';
             cases.forEach(caseItem => {
+                const hasPersonnel = caseItem.assignedJudge || caseItem.assignedProsecutor || 
+                                   caseItem.investigationHead || caseItem.additionalInvestigator;
+                
                 html += `
                     <div class="case-item">
-                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
-                            <div class="case-number">📁 Справа №${caseItem.number}</div>
-                            <div style="display: flex; gap: 8px; align-items: center;">
-                                <div class="agency-badge">${caseItem.status || 'Активна'}</div>
-                                <div class="security-badge">КОНФІДЕНЦІЙНО</div>
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div style="font-weight: bold; color: #2563eb; font-size: 16px;">📁 Справа №${caseItem.number}</div>
+                            <div style="background: #e5e7eb; padding: 2px 8px; border-radius: 3px; font-size: 12px;">${caseItem.status}</div>
+                        </div>
+                        <div style="color: #666; margin: 8px 0;">📅 ${caseItem.date} • 🎯 ${caseItem.type}</div>
+                        <div style="margin-bottom: 10px;">${caseItem.description}</div>
+                        <div style="color: #666; font-size: 14px;">👤 Слідчий: ${caseItem.investigator}</div>
+                        
+                        ${hasPersonnel ? `
+                        <div class="personnel-section">
+                            <div style="font-weight: bold; margin-bottom: 5px; font-size: 14px;">👥 Прикріплений персонал:</div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px;">
+                                ${caseItem.assignedJudge ? `<div><strong>⚖️ Суддя:</strong> ${caseItem.assignedJudge}</div>` : ''}
+                                ${caseItem.assignedProsecutor ? `<div><strong>👨‍⚖️ Прокурор:</strong> ${caseItem.assignedProsecutor}</div>` : ''}
+                                ${caseItem.investigationHead ? `<div><strong>🛡️ Керівник:</strong> ${caseItem.investigationHead}</div>` : ''}
+                                ${caseItem.additionalInvestigator ? `<div><strong>🔍 Слідчий:</strong> ${caseItem.additionalInvestigator}</div>` : ''}
                             </div>
                         </div>
-                        <div style="color: #666; margin-bottom: 12px;">
-                            📅 ${caseItem.date} • 🎯 ${caseItem.type}
-                        </div>
-                        <div style="margin-bottom: 12px; line-height: 1.5;">${caseItem.description}</div>
-                        <div style="color: #666; font-size: 14px;">
-                            👤 Слідчий: ${caseItem.investigator}
-                        </div>
-                        <div style="margin-top: 15px; display: flex; gap: 8px;">
-                            <button class="btn" onclick="editCase('${caseItem.id}')">✏️ Редагувати</button>
-                            <button class="btn btn-danger" onclick="deleteCase('${caseItem.id}')">🗑️ Видалити</button>
-                        </div>
+                        ` : ''}
+                        
+                        <button class="btn btn-danger" onclick="deleteCase('${caseItem.id}')" style="margin-top: 10px; font-size: 12px;">🗑️ Видалити</button>
                     </div>
                 `;
             });
@@ -938,112 +491,63 @@
         }
 
         function addCase() {
-            if (!currentState.session) return;
-
-            currentState.editingCase = null;
-            document.getElementById('modalTitle').textContent = '📁 Додати справу';
+            document.getElementById('modal').style.display = 'flex';
             document.getElementById('caseNumber').value = '';
             document.getElementById('caseDate').value = new Date().toISOString().split('T')[0];
             document.getElementById('crimeType').value = 'Кримінальне';
+            document.getElementById('caseStatus').value = 'Нова';
             document.getElementById('caseDescription').value = '';
-            document.getElementById('modal').style.display = 'flex';
+            document.getElementById('assignedJudge').value = '';
+            document.getElementById('assignedProsecutor').value = '';
+            document.getElementById('investigationHead').value = '';
+            document.getElementById('additionalInvestigator').value = '';
         }
 
-        function editCase(id) {
-            if (!currentState.session) return;
-
-            const cases = DB.getAgencyCases(currentState.session.agency);
-            const caseItem = cases.find(c => c.id === id);
-            if (!caseItem) return;
-
-            currentState.editingCase = id;
-            document.getElementById('modalTitle').textContent = '✏️ Редагувати справу';
-            document.getElementById('caseNumber').value = caseItem.number;
-            document.getElementById('caseDate').value = caseItem.date;
-            document.getElementById('crimeType').value = caseItem.type;
-            document.getElementById('caseDescription').value = caseItem.description;
-            document.getElementById('modal').style.display = 'flex';
-
-            DB.logSecurityEvent('CASE_VIEWED', { 
-                caseId: id, 
-                user: currentState.session.user 
-            });
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
         }
 
         function saveCase(event) {
             event.preventDefault();
             
-            if (!currentState.session) return;
-
-            const cases = DB.getAgencyCases(currentState.session.agency);
             const caseData = {
+                id: Date.now().toString(),
                 number: document.getElementById('caseNumber').value,
                 date: document.getElementById('caseDate').value,
                 type: document.getElementById('crimeType').value,
+                status: document.getElementById('caseStatus').value,
                 description: document.getElementById('caseDescription').value,
-                investigator: currentState.session.user,
-                agency: currentState.session.agency,
-                status: 'Активна'
+                investigator: currentUser.user,
+                // ПЕРСОНАЛ
+                assignedJudge: document.getElementById('assignedJudge').value.trim(),
+                assignedProsecutor: document.getElementById('assignedProsecutor').value.trim(),
+                investigationHead: document.getElementById('investigationHead').value.trim(),
+                additionalInvestigator: document.getElementById('additionalInvestigator').value.trim()
             };
 
-            if (currentState.editingCase) {
-                const index = cases.findIndex(c => c.id === currentState.editingCase);
-                if (index !== -1) {
-                    caseData.id = currentState.editingCase;
-                    caseData.created = cases[index].created;
-                    cases[index] = caseData;
-                    
-                    DB.logSecurityEvent('CASE_UPDATED', { 
-                        caseId: currentState.editingCase,
-                        user: currentState.session.user 
-                    });
-                }
-            } else {
-                caseData.id = Date.now().toString();
-                caseData.created = new Date().toISOString();
-                cases.push(caseData);
-                
-                DB.logSecurityEvent('CASE_CREATED', { 
-                    caseId: caseData.id,
-                    user: currentState.session.user 
-                });
-            }
-
-            if (DB.saveAgencyCases(currentState.session.agency, cases)) {
-                closeModal();
-                loadAgencyCases();
-                showMessage(currentState.editingCase ? 'Справу оновлено' : 'Справу додано', 'success');
-            }
+            const cases = DB.getCases(currentUser.agency);
+            cases.push(caseData);
+            DB.saveCases(currentUser.agency, cases);
+            
+            closeModal();
+            loadCases();
+            alert('✅ Справу додано!');
         }
 
         function deleteCase(id) {
-            if (!confirm('🗑️ Видалити цю справу? Цю дію неможливо скасувати.')) return;
+            if (!confirm('🗑️ Видалити цю справу?')) return;
             
-            const cases = DB.getAgencyCases(currentState.session.agency);
-            const updatedCases = cases.filter(c => c.id !== id);
-            
-            if (DB.saveAgencyCases(currentState.session.agency, updatedCases)) {
-                loadAgencyCases();
-                showMessage('Справу видалено', 'success');
-                
-                DB.logSecurityEvent('CASE_DELETED', { 
-                    caseId: id,
-                    user: currentState.session.user 
-                });
-            }
-        }
-
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-            currentState.editingCase = null;
+            const cases = DB.getCases(currentUser.agency);
+            const newCases = cases.filter(c => c.id !== id);
+            DB.saveCases(currentUser.agency, newCases);
+            loadCases();
+            alert('✅ Справу видалено!');
         }
 
         function searchCases() {
-            if (!currentState.session) return;
-
             const query = document.getElementById('searchInput').value.toLowerCase();
-            const cases = DB.getAgencyCases(currentState.session.agency);
-
+            const cases = DB.getCases(currentUser.agency);
+            
             if (!query) {
                 renderCases(cases);
                 return;
@@ -1051,66 +555,38 @@
 
             const filtered = cases.filter(caseItem => 
                 caseItem.number.toLowerCase().includes(query) ||
-                caseItem.investigator.toLowerCase().includes(query) ||
                 caseItem.description.toLowerCase().includes(query) ||
-                caseItem.type.toLowerCase().includes(query)
+                caseItem.type.toLowerCase().includes(query) ||
+                caseItem.investigator.toLowerCase().includes(query) ||
+                (caseItem.assignedJudge && caseItem.assignedJudge.toLowerCase().includes(query)) ||
+                (caseItem.assignedProsecutor && caseItem.assignedProsecutor.toLowerCase().includes(query))
             );
 
             renderCases(filtered);
-            
-            DB.logSecurityEvent('SEARCH_PERFORMED', { 
-                query: query,
-                results: filtered.length,
-                user: currentState.session.user 
-            });
         }
 
-        function clearSearch() {
-            document.getElementById('searchInput').value = '';
-            if (currentState.session) {
-                loadAgencyCases();
-            }
-        }
-
-        function generateReport() {
-            if (!currentState.session) return;
-
-            const cases = DB.getAgencyCases(currentState.session.agency);
-            const stats = {
-                total: cases.length,
-                new: cases.filter(c => c.status === 'Нова').length,
-                inProgress: cases.filter(c => c.status === 'В розслідуванні').length,
-                completed: cases.filter(c => c.status === 'Завершена').length
-            };
-
-            showMessage(
-                `📊 Звіт ${getAgencyName(currentState.session.agency)}: ` +
-                `Всього ${stats.total} справ | Нові: ${stats.new} | В роботі: ${stats.inProgress} | ` +
-                `Завершені: ${stats.completed}`, 
-                'success'
-            );
-
-            DB.logSecurityEvent('REPORT_GENERATED', { 
-                agency: currentState.session.agency,
-                stats: stats 
-            });
-        }
-
-        function showAuditLog() {
-            const recentEvents = securityState.auditLog.slice(0, 10);
-            let logText = 'Останні події безпеки:\n\n';
-            
-            recentEvents.forEach(event => {
-                const time = new Date(event.timestamp).toLocaleString();
-                logText += `${time} - ${event.type}\n`;
-            });
-
-            alert(logText);
-        }
-
-        // Инициализация при загрузке
+        // ЗАГРУЗКА ПРИ СТАРТЕ
         document.addEventListener('DOMContentLoaded', function() {
-            initSecuritySystem();
+            init();
+            
+            // ТЕСТОВЫЕ ДАННЫЕ
+            if (!localStorage.getItem('cases_sbu')) {
+                const testCases = [
+                    {
+                        id: '1',
+                        number: '001/2024',
+                        date: '2024-01-15',
+                        type: 'Кримінальне правопорушення',
+                        status: 'В розслідуванні',
+                        description: 'Розслідування корупційних дій у державному органі',
+                        investigator: 'Іванов І.І.',
+                        assignedJudge: 'Петренко П.П.',
+                        assignedProsecutor: 'Сидоров С.С.',
+                        investigationHead: 'Коваленко К.К.'
+                    }
+                ];
+                DB.saveCases('sbu', testCases);
+            }
         });
     </script>
 </body>
