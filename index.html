@@ -3,114 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Єдиний реєстр досудових розслідувань</title>
+    <title>ЄРДР PRO - Об'єднана система</title>
     <style>
+        :root {
+            --primary: #1e40af;
+            --secondary: #3730a3;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #d97706;
+            --dark: #1f2937;
+            --light: #f8fafc;
+            --gunp-color: #1e40af;
+            --sbu-color: #dc2626;
+            --prosecutor-color: #7c2d12;
+            --admin-color: #7e22ce;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
             min-height: 100vh;
-            padding: 20px;
+            color: white;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 20px;
         }
 
         .header {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            background: rgba(30, 64, 175, 0.9);
+            backdrop-filter: blur(20px);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
             text-align: center;
         }
 
-        .card {
-            background: white;
+        .agency-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .agency-card {
+            background: rgba(30, 41, 59, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.1);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .agency-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .agency-card.gunp {
+            border-color: var(--gunp-color);
+        }
+
+        .agency-card.sbu {
+            border-color: var(--sbu-color);
+        }
+
+        .agency-card.prosecutor {
+            border-color: var(--prosecutor-color);
+        }
+
+        .agency-card.admin {
+            border-color: var(--admin-color);
+        }
+
+        .agency-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .admin-panel {
+            display: none;
+            background: rgba(30, 41, 59, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 25px;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .table th {
+            color: #94a3b8;
+            font-weight: 600;
         }
 
         .btn {
             padding: 10px 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
             margin: 5px;
         }
 
         .btn-primary {
-            background: #2563eb;
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-sbu {
+            background: var(--sbu-color);
+            color: white;
+        }
+
+        .btn-prosecutor {
+            background: var(--prosecutor-color);
+            color: white;
+        }
+
+        .btn-admin {
+            background: var(--admin-color);
             color: white;
         }
 
         .btn-success {
-            background: #059669;
+            background: var(--success);
             color: white;
         }
 
         .btn-danger {
-            background: #dc2626;
+            background: var(--danger);
             color: white;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 20px;
-        }
-
-        .search-box {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .search-box input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        .case-item {
-            border: 1px solid #e5e7eb;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-        }
-
-        .personnel-section {
-            background: #f8fafc;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
-            border-left: 3px solid #2563eb;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
+        .badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
             font-weight: bold;
         }
 
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+        .badge-success { background: var(--success); }
+        .badge-warning { background: var(--warning); }
+        .badge-danger { background: var(--danger); }
+        .badge-primary { background: var(--primary); }
+        .badge-admin { background: var(--admin-color); }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
         }
 
         .modal {
@@ -120,642 +219,1246 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.8);
             z-index: 1000;
             align-items: center;
             justify-content: center;
         }
 
         .modal-content {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
+            background: rgba(30, 41, 59, 0.95);
+            padding: 30px;
+            border-radius: 20px;
             width: 90%;
-            max-width: 500px;
+            max-width: 600px;
+            border: 1px solid rgba(255,255,255,0.1);
             max-height: 90vh;
             overflow-y: auto;
         }
 
-        .security-warning {
-            background: #fef3c7;
-            border: 1px solid #f59e0b;
-            padding: 8px;
-            border-radius: 5px;
-            margin: 10px 0;
-            font-size: 12px;
-            display: none;
+        .form-group {
+            margin-bottom: 20px;
         }
 
-        .personnel-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .agency-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin: 2px;
+        }
+
+        .badge-gunp { background: var(--gunp-color); }
+        .badge-sbu { background: var(--sbu-color); }
+        .badge-prosecutor { background: var(--prosecutor-color); }
+        .badge-admin { background: var(--admin-color); }
+
+        .password-field {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .test-credentials {
+            background: rgba(30, 64, 175, 0.2);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 0.8em;
+        }
+
+        .password-list {
+            max-height: 200px;
+            overflow-y: auto;
             margin-top: 10px;
         }
 
-        .personnel-item {
-            background: white;
+        .password-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 8px;
-            border-radius: 3px;
-            border: 1px solid #e5e7eb;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-family: 'Courier New', monospace;
+            font-size: 0.8em;
         }
 
-        .data-status {
-            background: #dcfce7;
-            border: 1px solid #22c55e;
-            padding: 8px;
-            border-radius: 5px;
-            margin: 10px 0;
-            font-size: 12px;
-            text-align: center;
+        .admin-section {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 15px;
+        }
+
+        .admin-tab {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .admin-tab.active {
+            background: var(--admin-color);
+        }
+
+        .user-management {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .case-actions {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .case-status-new { background: #3b82f6; }
+        .case-status-in-progress { background: #f59e0b; }
+        .case-status-completed { background: #10b981; }
+        .case-status-closed { background: #6b7280; }
+
+        .cases-section {
+            margin-top: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .prosecutor-confirm {
+            background: rgba(124, 45, 18, 0.3);
+            border: 1px solid var(--prosecutor-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .agency-selector {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .user-management {
+                grid-template-columns: 1fr;
+            }
+            
+            .case-actions {
+                flex-direction: column;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <h1>Єдиний реєстр досудових розслідувань</h1>
-            <p>Дані зберігаються локально</p>
+            <h1 style="font-size: 2.5em; margin-bottom: 10px;">🛡️ ЄРДР PRO</h1>
+            <p style="color: #cbd5e1; font-size: 1.1em;">Об'єднана система управління розслідуваннями</p>
+            <div style="background: var(--danger); color: white; padding: 8px 15px; border-radius: 20px; display: inline-block; margin-top: 10px; font-weight: bold;">
+                🔒 ЗАСЕКРЕЧЕНО
+            </div>
         </header>
 
-        <div class="data-status" id="dataStatus">
-            💾 Дані зберігаються в браузері. Не видаляйте історію браузера!
+        <div class="agency-selector">
+            <div class="agency-card gunp" onclick="selectAgency('gunp')">
+                <div class="agency-icon">👮‍♂️</div>
+                <h3>ГУНП</h3>
+                <p>Головне управління Національної поліції</p>
+            </div>
+            
+            <div class="agency-card sbu" onclick="selectAgency('sbu')">
+                <div class="agency-icon">🕵️‍♂️</div>
+                <h3>СБУ</h3>
+                <p>Служба Безпеки України</p>
+            </div>
+            
+            <div class="agency-card prosecutor" onclick="selectAgency('prosecutor')">
+                <div class="agency-icon">⚖️</div>
+                <h3>Прокуратура</h3>
+                <p>Генеральна прокуратура України</p>
+            </div>
+            
+            <div class="agency-card admin" onclick="selectAgency('admin')">
+                <div class="agency-icon">👨‍💼</div>
+                <h3>Адмін-панель</h3>
+                <p>Управління системою</p>
+            </div>
         </div>
 
-        <div class="grid">
-            <main>
-                <section class="card">
-                    <h3>🔍 Справи</h3>
-                    <div class="search-box">
-                        <input type="text" id="searchInput" placeholder="Пошук...">
-                        <button class="btn btn-primary" onclick="searchCases()">Пошук</button>
-                        <button class="btn" onclick="clearSearch()">Очистити</button>
-                    </div>
-                    <div id="casesList">
-                        <!-- Справи будуть тут -->
-                    </div>
-                </section>
-            </main>
+        <!-- ГУНП Admin Panel -->
+        <div id="gunp-panel" class="admin-panel">
+            <div class="admin-header">
+                <div>
+                    <h2>👮‍♂️ ГУНП - Панель управління</h2>
+                    <p style="color: #cbd5e1;">Головне управління Національної поліції</p>
+                </div>
+                <button class="btn btn-primary" onclick="logout()">Вийти</button>
+            </div>
 
-            <aside>
-                <section class="card" id="loginSection">
-                    <h3>🔐 Вхід</h3>
-                    <div id="securityWarning" class="security-warning">
-                        ⚠️ Залишилось спроб: <span id="attemptsCount">3</span>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Орган:</label>
-                        <select id="agencySelect">
-                            <option value="sbu">СБУ</option>
-                            <option value="npu">НПУ</option>
-                            <option value="prosecutor">Прокуратура</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>ПІБ:</label>
-                        <input type="text" id="userName" placeholder="Введіть ваше ПІБ">
-                    </div>
-                    <div class="form-group">
-                        <label>Пароль:</label>
-                        <input type="password" id="password" placeholder="Введіть пароль">
-                    </div>
-                    <button class="btn btn-primary" onclick="login()" style="width: 100%;">Увійти</button>
-                    
-                    <div style="margin-top: 15px; padding: 10px; background: #f3f4f6; border-radius: 5px; font-size: 12px;">
-                        <strong>Інструкція:</strong><br>
-                        1. Оберіть ваш орган<br>
-                        2. Введіть службове ПІБ<br>
-                        3. Використовуйте службовий пароль
-                    </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="gunp-total-cases">0</div>
+                    <div>Всього справ</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="gunp-active-cases">0</div>
+                    <div>Активних справ</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="gunp-critical-cases">0</div>
+                    <div>Критичних справ</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24</div>
+                    <div>Співробітників</div>
+                </div>
+            </div>
 
-                    <div style="margin-top: 10px; padding: 8px; background: #fef3c7; border-radius: 5px; font-size: 11px;">
-                        <strong>💡 Порада:</strong> Не очищайте історію браузера, щоб не втратити дані
-                    </div>
-                </section>
+            <div class="section-header">
+                <h3>Кримінальні справи</h3>
+                <button class="btn btn-primary" onclick="showAddCaseModal()">➕ Додати справу</button>
+            </div>
 
-                <section class="card" id="userSection" style="display: none;">
-                    <h3>👤 Користувач</h3>
-                    <div id="userDetails"></div>
-                    
-                    <div style="display: flex; flex-direction: column; gap: 8px; margin: 15px 0;">
-                        <button class="btn btn-success" onclick="addCase()">➕ Додати справу</button>
-                        <button class="btn btn-primary" onclick="backupData()">💾 Резервна копія</button>
-                        <button class="btn" onclick="showStats()">📊 Статистика</button>
-                    </div>
-                    
-                    <button class="btn btn-danger" onclick="logout()" style="width: 100%;">Вийти</button>
-                </section>
-            </aside>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>№ справи</th>
+                        <th>Назва</th>
+                        <th>Статус</th>
+                        <th>Дата створення</th>
+                        <th>Відповідальний</th>
+                        <th>Дії</th>
+                    </tr>
+                </thead>
+                <tbody id="gunp-cases-table">
+                    <!-- Cases will be loaded here -->
+                </tbody>
+            </table>
+
+            <h3>Співробітники ГУНП</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Співробітник</th>
+                        <th>Посада</th>
+                        <th>Підрозділ</th>
+                        <th>Статус</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Коваленко І.П.</td>
+                        <td>Начальник управління</td>
+                        <td>Кримінальна поліція</td>
+                        <td><span class="badge badge-success">Активний</span></td>
+                    </tr>
+                    <tr>
+                        <td>Петренко О.В.</td>
+                        <td>Заступник начальника</td>
+                        <td>Слідчий відділ</td>
+                        <td><span class="badge badge-success">Активний</span></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    </div>
 
-    <!-- Модальное окно -->
-    <div class="modal" id="modal">
-        <div class="modal-content">
-            <h3>📁 Додати справу</h3>
-            <form onsubmit="saveCase(event)">
-                <div class="form-group">
-                    <label>Номер справи:</label>
-                    <input type="text" id="caseNumber" required>
+        <!-- СБУ Admin Panel -->
+        <div id="sbu-panel" class="admin-panel">
+            <div class="admin-header">
+                <div>
+                    <h2>🕵️‍♂️ СБУ - Панель управління</h2>
+                    <p style="color: #cbd5e1;">Служба Безпеки України</p>
                 </div>
-                <div class="form-group">
-                    <label>Дата реєстрації:</label>
-                    <input type="date" id="caseDate" required>
+                <button class="btn btn-sbu" onclick="logout()">Вийти</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card" style="background: linear-gradient(135deg, var(--sbu-color), #b91c1c);">
+                    <div class="stat-number" id="sbu-total-cases">0</div>
+                    <div>Оперативних справ</div>
                 </div>
-                <div class="form-group">
-                    <label>Тип злочину:</label>
-                    <select id="crimeType" required>
-                        <option value="Кримінальне">Кримінальне правопорушення</option>
-                        <option value="Кіберзлочин">Кіберзлочинність</option>
-                        <option value="Корупція">Корупційний злочин</option>
-                        <option value="Економічний">Економічний злочин</option>
-                    </select>
+                <div class="stat-card" style="background: linear-gradient(135deg, var(--sbu-color), #b91c1c);">
+                    <div class="stat-number" id="sbu-active-cases">0</div>
+                    <div>Активних операцій</div>
                 </div>
-                <div class="form-group">
-                    <label>Статус:</label>
-                    <select id="caseStatus" required>
-                        <option value="Нова">Нова</option>
-                        <option value="В розслідуванні">В розслідуванні</option>
-                        <option value="Завершена">Завершена</option>
-                    </select>
+                <div class="stat-card" style="background: linear-gradient(135deg, var(--sbu-color), #b91c1c);">
+                    <div class="stat-number" id="sbu-critical-cases">0</div>
+                    <div>Контррозвідувальних справ</div>
                 </div>
-                <div class="form-group">
-                    <label>Опис справи:</label>
-                    <textarea id="caseDescription" rows="3" required></textarea>
+                <div class="stat-card" style="background: linear-gradient(135deg, var(--sbu-color), #b91c1c);">
+                    <div class="stat-number">18</div>
+                    <div>Оперативних співробітників</div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h3>Оперативні справи</h3>
+                <button class="btn btn-sbu" onclick="showAddCaseModal()">➕ Додати справу</button>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>№ справи</th>
+                        <th>Назва</th>
+                        <th>Статус</th>
+                        <th>Дата створення</th>
+                        <th>Відповідальний</th>
+                        <th>Дії</th>
+                    </tr>
+                </thead>
+                <tbody id="sbu-cases-table">
+                    <!-- Cases will be loaded here -->
+                </tbody>
+            </table>
+
+            <h3>Оперативний склад СБУ</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Оперативник</th>
+                        <th>Підрозділ</th>
+                        <th>Спеціалізація</th>
+                        <th>Рівень доступу</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Мельник А.В.</td>
+                        <td>Контррозвідка</td>
+                        <td>Начальник відділу</td>
+                        <td><span class="badge badge-danger">TOP SECRET</span></td>
+                    </tr>
+                    <tr>
+                        <td>Ковальчук С.М.</td>
+                        <td>Боротьба з тероризмом</td>
+                        <td>Старший оперуповноважений</td>
+                        <td><span class="badge badge-warning">SECRET</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Прокуратура Admin Panel -->
+        <div id="prosecutor-panel" class="admin-panel">
+            <div class="admin-header">
+                <div>
+                    <h2>⚖️ Прокуратура - Панель управління</h2>
+                    <p style="color: #cbd5e1;">Генеральна прокуратура України</p>
+                </div>
+                <button class="btn btn-prosecutor" onclick="logout()">Вийти</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card" style="background: linear-gradient(135deg, var(--prosecutor-color), #9a3412);">
+                    <div class="stat-number" id="proc-total-cases">0</div>
+                    <div>Супроводжуваних справ</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, var(--prosecutor-color), #9a3412);">
+                    <div class="stat-number" id="proc-active-cases">0</div>
+                    <div>Справ в суді</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, var(--prosecutor-color), #9a3412);">
+                    <div class="stat-number" id="proc-critical-cases">0</div>
+                    <div>Наглядових проваджень</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, var(--prosecutor-color), #9a3412);">
+                    <div class="stat-number">12</div>
+                    <div>Прокурорів</div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h3>Справи прокуратури</h3>
+                <button class="btn btn-prosecutor" onclick="showAddCaseModal()">➕ Додати справу</button>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>№ справи</th>
+                        <th>Назва</th>
+                        <th>Статус</th>
+                        <th>Дата створення</th>
+                        <th>Відповідальний прокурор</th>
+                        <th>Дії</th>
+                    </tr>
+                </thead>
+                <tbody id="prosecutor-cases-table">
+                    <!-- Cases will be loaded here -->
+                </tbody>
+            </table>
+
+            <h3>Прокурори</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Прокурор</th>
+                        <th>Посада</th>
+                        <th>Відділ</th>
+                        <th>Статус</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Віскар М.М.</td>
+                        <td>Генеральний прокурор</td>
+                        <td>Генеральна прокуратура</td>
+                        <td><span class="badge badge-success">Активний</span></td>
+                    </tr>
+                    <tr>
+                        <td>Кулебяка А.А.</td>
+                        <td>Старший прокурор</td>
+                        <td>Відділ кримінальних справ</td>
+                        <td><span class="badge badge-success">Активний</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Адмін-панель -->
+        <div id="admin-panel" class="admin-panel">
+            <div class="admin-header">
+                <div>
+                    <h2>👨‍💼 Адмін-панель</h2>
+                    <p style="color: #cbd5e1;">Управління системою та користувачами</p>
+                </div>
+                <button class="btn btn-admin" onclick="logout()">Вийти</button>
+            </div>
+
+            <div class="admin-tabs">
+                <button class="admin-tab active" onclick="showAdminTab('users')">Користувачі</button>
+                <button class="admin-tab" onclick="showAdminTab('system')">Система</button>
+                <button class="admin-tab" onclick="showAdminTab('logs')">Логи</button>
+                <button class="admin-tab" onclick="showAdminTab('backup')">Резервне копіювання</button>
+            </div>
+
+            <!-- Управління користувачами -->
+            <div id="admin-users" class="admin-section">
+                <h3>📊 Управління користувачами</h3>
+                <div class="stats-grid">
+                    <div class="stat-card" style="background: linear-gradient(135deg, var(--admin-color), #6b21a8);">
+                        <div class="stat-number" id="total-users">24</div>
+                        <div>Всього користувачів</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, var(--admin-color), #6b21a8);">
+                        <div class="stat-number" id="active-users">24</div>
+                        <div>Активних</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, var(--admin-color), #6b21a8);">
+                        <div class="stat-number">3</div>
+                        <div>Відомства</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, var(--admin-color), #6b21a8);">
+                        <div class="stat-number">8</div>
+                        <div>Користувачів на відомство</div>
+                    </div>
                 </div>
 
-                <!-- Персонал -->
-                <div class="personnel-section">
-                    <h4>👥 Прикріплений персонал</h4>
-                    <div class="personnel-grid">
-                        <div class="personnel-item">
-                            <label style="font-size: 12px; color: #666;">⚖️ Суддя:</label>
-                            <input type="text" id="assignedJudge" placeholder="ПІБ судді" style="border: none; background: transparent; width: 100%;">
+                <div class="user-management">
+                    <div>
+                        <h4>👮‍♂️ ГУНП - Користувачі</h4>
+                        <div class="password-list">
+                            <div class="password-item">
+                                <span>gunp_admin</span>
+                                <span>BlueDragon2024</span>
+                            </div>
+                            <div class="password-item">
+                                <span>gunp_director</span>
+                                <span>PoliceGuard987</span>
+                            </div>
+                            <div class="password-item">
+                                <span>gunp_deputy</span>
+                                <span>SecureBase555</span>
+                            </div>
+                            <div class="password-item">
+                                <span>gunp_senior</span>
+                                <span>Investigator777</span>
+                            </div>
+                            <div class="password-item">
+                                <span>gunp_invest</span>
+                                <span>CrimeHunter333</span>
+                            </div>
+                            <div class="password-item">
+                                <span>gunp_oper</span>
+                                <span>PatrolAgent111</span>
+                            </div>
+                            <div class="password-item">
+                                <span>gunp_analyst</span>
+                                <span>DataAnalyzer999</span>
+                            </div>
+                            <div class="password-item">
+                                <span>gunp_tech</span>
+                                <span>TechSupport444</span>
+                            </div>
                         </div>
-                        <div class="personnel-item">
-                            <label style="font-size: 12px; color: #666;">👨‍⚖️ Прокурор:</label>
-                            <input type="text" id="assignedProsecutor" placeholder="ПІБ прокурора" style="border: none; background: transparent; width: 100%;">
-                        </div>
-                        <div class="personnel-item">
-                            <label style="font-size: 12px; color: #666;">🛡️ Керівник:</label>
-                            <input type="text" id="investigationHead" placeholder="ПІБ керівника" style="border: none; background: transparent; width: 100%;">
-                        </div>
-                        <div class="personnel-item">
-                            <label style="font-size: 12px; color: #666;">🔍 Слідчий:</label>
-                            <input type="text" id="additionalInvestigator" placeholder="ПІБ слідчого" style="border: none; background: transparent; width: 100%;">
+                    </div>
+
+                    <div>
+                        <h4>🕵️‍♂️ СБУ - Користувачі</h4>
+                        <div class="password-list">
+                            <div class="password-item">
+                                <span>sbu_admin</span>
+                                <span>RedShadow2024</span>
+                            </div>
+                            <div class="password-item">
+                                <span>sbu_counter</span>
+                                <span>CounterSpy789</span>
+                            </div>
+                            <div class="password-item">
+                                <span>sbu_senior</span>
+                                <span>SecretAgent456</span>
+                            </div>
+                            <div class="password-item">
+                                <span>sbu_oper</span>
+                                <span>UnderCover123</span>
+                            </div>
+                            <div class="password-item">
+                                <span>sbu_cyber</span>
+                                <span>CyberShield321</span>
+                            </div>
+                            <div class="password-item">
+                                <span>sbu_analyst</span>
+                                <span>IntelMaster654</span>
+                            </div>
+                            <div class="password-item">
+                                <span>sbu_security</span>
+                                <span>SafeGuard987</span>
+                            </div>
+                            <div class="password-item">
+                                <span>sbu_tech</span>
+                                <span>TechWizard555</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div style="text-align: right; margin-top: 20px;">
-                    <button type="button" class="btn" onclick="closeModal()">Скасувати</button>
-                    <button type="submit" class="btn btn-primary">💾 Зберегти</button>
+                <div style="margin-top: 20px;">
+                    <h4>⚖️ Прокуратура - Користувачі</h4>
+                    <div class="password-list">
+                        <div class="password-item">
+                            <span>proc_admin</span>
+                            <span>GoldScale2024</span>
+                        </div>
+                        <div class="password-item">
+                            <span>proc_general</span>
+                            <span>JusticeLord777</span>
+                        </div>
+                        <div class="password-item">
+                            <span>proc_deputy</span>
+                            <span>LawMaster888</span>
+                        </div>
+                        <div class="password-item">
+                            <span>proc_senior</span>
+                            <span>SeniorLaw555</span>
+                        </div>
+                        <div class="password-item">
+                            <span>proc_dept</span>
+                            <span>DeptChief333</span>
+                        </div>
+                        <div class="password-item">
+                            <span>proc_assist</span>
+                            <span>LegalAid111</span>
+                        </div>
+                        <div class="password-item">
+                            <span>proc_criminal</span>
+                            <span>CrimeLaw222</span>
+                        </div>
+                        <div class="password-item">
+                            <span>proc_super</span>
+                            <span>Supervisor999</span>
+                        </div>
+                    </div>
                 </div>
-            </form>
+            </div>
+
+            <!-- Системні налаштування -->
+            <div id="admin-system" class="admin-section" style="display: none;">
+                <h3>⚙️ Системні налаштування</h3>
+                <div class="form-group">
+                    <label>Назва системи</label>
+                    <input type="text" class="form-control" value="ЄРДР PRO" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Версія системи</label>
+                    <input type="text" class="form-control" value="2.4.1" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Статус системи</label>
+                    <div>
+                        <span class="badge badge-success">Активна</span>
+                        <span style="margin-left: 10px; color: #94a3b8;">Всі служби працюють штатно</span>
+                    </div>
+                </div>
+                <button class="btn btn-admin">Зберегти налаштування</button>
+            </div>
+
+            <!-- Логи -->
+            <div id="admin-logs" class="admin-section" style="display: none;">
+                <h3>📋 Журнал подій</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Час</th>
+                            <th>Користувач</th>
+                            <th>Подія</th>
+                            <th>Статус</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2024-01-15 14:30</td>
+                            <td>gunp_admin</td>
+                            <td>Вхід в систему</td>
+                            <td><span class="badge badge-success">Успішно</span></td>
+                        </tr>
+                        <tr>
+                            <td>2024-01-15 14:25</td>
+                            <td>sbu_admin</td>
+                            <td>Перегляд справ</td>
+                            <td><span class="badge badge-success">Успішно</span></td>
+                        </tr>
+                        <tr>
+                            <td>2024-01-15 14:20</td>
+                            <td>proc_admin</td>
+                            <td>Експорт даних</td>
+                            <td><span class="badge badge-success">Успішно</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Резервне копіювання -->
+            <div id="admin-backup" class="admin-section" style="display: none;">
+                <h3>💾 Резервне копіювання</h3>
+                <div class="stats-grid">
+                    <div class="stat-card" style="background: linear-gradient(135deg, var(--success), #047857);">
+                        <div class="stat-number">156</div>
+                        <div>Справ в базі</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, var(--success), #047857);">
+                        <div class="stat-number">24</div>
+                        <div>Користувачі</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, var(--success), #047857);">
+                        <div class="stat-number">89</div>
+                        <div>Логів за день</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, var(--success), #047857);">
+                        <div class="stat-number">2.4 GB</div>
+                        <div>Розмір бази</div>
+                    </div>
+                </div>
+                <button class="btn btn-success" style="margin-right: 10px;">Створити бекап</button>
+                <button class="btn btn-primary">Відновити з бекапу</button>
+            </div>
+        </div>
+
+        <!-- Login Modal -->
+        <div class="modal" id="loginModal">
+            <div class="modal-content">
+                <h2 style="margin-bottom: 20px; text-align: center;">🔐 Вхід в систему</h2>
+                
+                <div class="user-info">
+                    <div class="user-avatar" id="modal-avatar">?</div>
+                    <div>
+                        <div style="font-weight: 600;" id="modal-agency-name">Оберіть відомство</div>
+                        <div style="color: #94a3b8; font-size: 0.9em;" id="modal-agency-desc">Для доступу до панелі управління</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>👤 Логін</label>
+                    <input type="text" class="form-control" id="loginUsername" placeholder="Введіть логін" autocomplete="off">
+                </div>
+                
+                <div class="form-group">
+                    <label>🔑 Пароль</label>
+                    <div class="password-field">
+                        <input type="password" class="form-control" id="loginPassword" placeholder="Введіть пароль" autocomplete="off">
+                        <button type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button class="btn" onclick="closeLoginModal()" style="flex: 1;">Скасувати</button>
+                    <button class="btn btn-primary" onclick="login()" style="flex: 2;">Увійти</button>
+                </div>
+                
+                <div class="test-credentials">
+                    <h4>🔓 Тестові доступы для перевірки:</h4>
+                    <div class="password-list" id="passwordList">
+                        <!-- Паролі будуть завантажені тут -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Case Modal -->
+        <div class="modal" id="addCaseModal">
+            <div class="modal-content">
+                <h2 style="margin-bottom: 20px; text-align: center;">➕ Додати нову справу</h2>
+                
+                <div class="form-group">
+                    <label>📋 Назва справи</label>
+                    <input type="text" class="form-control" id="caseTitle" placeholder="Введіть назву справи">
+                </div>
+                
+                <div class="form-group">
+                    <label>📝 Опис справи</label>
+                    <textarea class="form-control" id="caseDescription" placeholder="Детальний опис справи"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>🔢 Номер справи</label>
+                    <input type="text" class="form-control" id="caseNumber" placeholder="Наприклад: 420/2024">
+                </div>
+                
+                <div class="form-group">
+                    <label>🏷️ Категорія</label>
+                    <select class="form-control" id="caseCategory">
+                        <option value="criminal">Кримінальна справа</option>
+                        <option value="operational">Оперативна справа</option>
+                        <option value="supervision">Наглядова справа</option>
+                        <option value="investigation">Розслідування</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>⚠️ Пріоритет</label>
+                    <select class="form-control" id="casePriority">
+                        <option value="low">Низький</option>
+                        <option value="medium">Середній</option>
+                        <option value="high">Високий</option>
+                        <option value="critical">Критичний</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button class="btn" onclick="closeAddCaseModal()" style="flex: 1;">Скасувати</button>
+                    <button class="btn btn-success" onclick="addNewCase()" style="flex: 2;">Додати справу</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prosecutor Confirm Modal -->
+        <div class="modal" id="prosecutorConfirmModal">
+            <div class="modal-content">
+                <h2 style="margin-bottom: 20px; text-align: center;">⚖️ Підтвердження видалення</h2>
+                
+                <div class="prosecutor-confirm">
+                    <h4>🔐 Підтвердження прокурора</h4>
+                    <p style="margin-bottom: 15px; color: #cbd5e1;">Для видалення справи необхідно підтвердження прокурора</p>
+                    
+                    <div class="form-group">
+                        <label>👤 Логін прокурора</label>
+                        <input type="text" class="form-control" id="prosecutorUsername" placeholder="Введіть логін прокурора">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>🔑 Пароль прокурора</label>
+                        <div class="password-field">
+                            <input type="password" class="form-control" id="prosecutorPassword" placeholder="Введіть пароль прокурора">
+                            <button type="button" class="toggle-password" onclick="toggleProsecutorPassword()">👁️</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="caseToDeleteInfo" style="background: rgba(220, 38, 38, 0.2); border-radius: 10px; padding: 15px; margin: 15px 0;">
+                    <!-- Інформація про справу буде тут -->
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button class="btn" onclick="closeProsecutorConfirmModal()" style="flex: 1;">Скасувати</button>
+                    <button class="btn btn-danger" onclick="confirmCaseDeletion()" style="flex: 2;">🗑️ Підтвердити видалення</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // МИНИМАЛЬНАЯ СИСТЕМА БЕЗОПАСНОСТИ
-        let loginAttempts = 0;
-        const MAX_ATTEMPTS = 3;
-        let isBlocked = false;
-
-        // ПАРОЛИ (СКРЫТЫ ОТ ПОЛЬЗОВАТЕЛЕЙ)
-        const PASSWORDS = {
-            sbu: ['SBU001', 'SBU002', 'SBU003', 'SBU004', 'SBU005', 'SBU006', 'SBU007', 'SBU008', 'SBU009', 'SBU010'],
-            npu: ['NPU101', 'NPU102', 'NPU103', 'NPU104', 'NPU105', 'NPU106', 'NPU107', 'NPU108', 'NPU109'],
-            prosecutor: ['PROC1', 'PROC2', 'PROC3', 'PROC4', 'PROC5']
+        // 🔐 24 АБСОЛЮТНО РІЗНИХ ПАРОЛЯ
+        const USERS = {
+            gunp: [
+                { username: "gunp_admin", password: "BlueDragon2024", name: "Коваленко І.П.", position: "Головний адміністратор ГУНП" },
+                { username: "gunp_director", password: "PoliceGuard987", name: "Петренко О.В.", position: "Начальник управління" },
+                { username: "gunp_deputy", password: "SecureBase555", name: "Шевченко М.І.", position: "Заступник начальника" },
+                { username: "gunp_senior", password: "Investigator777", name: "Бондаренко С.П.", position: "Старший слідчий" },
+                { username: "gunp_invest", password: "CrimeHunter333", name: "Сидоренко В.П.", position: "Слідчий" },
+                { username: "gunp_oper", password: "PatrolAgent111", name: "Кравченко А.М.", position: "Оперативник" },
+                { username: "gunp_analyst", password: "DataAnalyzer999", name: "Павленко І.В.", position: "Аналітик" },
+                { username: "gunp_tech", password: "TechSupport444", name: "Ткачук Р.О.", position: "Технічний спеціаліст" }
+            ],
+            sbu: [
+                { username: "sbu_admin", password: "RedShadow2024", name: "Мельник А.В.", position: "Головний адміністратор СБУ" },
+                { username: "sbu_counter", password: "CounterSpy789", name: "Ковальчук С.М.", position: "Начальник контррозвідки" },
+                { username: "sbu_senior", password: "SecretAgent456", name: "Ткаченко І.П.", position: "Старший оперуповноважений" },
+                { username: "sbu_oper", password: "UnderCover123", name: "Лисенко О.Р.", position: "Оперуповноважений" },
+                { username: "sbu_cyber", password: "CyberShield321", name: "Шевчук М.С.", position: "Кіберспеціаліст" },
+                { username: "sbu_analyst", password: "IntelMaster654", name: "Білий В.П.", position: "Аналітик розвідки" },
+                { username: "sbu_security", password: "SafeGuard987", name: "Чорний О.І.", position: "Спеціаліст безпеки" },
+                { username: "sbu_tech", password: "TechWizard555", name: "Зеленський П.М.", position: "Технічний експерт" }
+            ],
+            prosecutor: [
+                { username: "proc_admin", password: "GoldScale2024", name: "Віскар М.М.", position: "Головний адміністратор Прокуратури" },
+                { username: "proc_general", password: "JusticeLord777", name: "Кулебяка А.А.", position: "Генеральний прокурор" },
+                { username: "proc_deputy", password: "LawMaster888", name: "Маркієнко М.С.", position: "Заступник прокурора" },
+                { username: "proc_senior", password: "SeniorLaw555", name: "Шмелев А.Є.", position: "Старший прокурор" },
+                { username: "proc_dept", password: "DeptChief333", name: "Петров К.О.", position: "Прокурор відділу" },
+                { username: "proc_assist", password: "LegalAid111", name: "Іванова Л.М.", position: "Помічник прокурора" },
+                { username: "proc_criminal", password: "CrimeLaw222", name: "Семенюк В.І.", position: "Прокурор-криміналіст" },
+                { username: "proc_super", password: "Supervisor999", name: "Козак Р.С.", position: "Спеціаліст з нагляду" }
+            ],
+            admin: [
+                { username: "system_admin", password: "MasterControl2024", name: "Системний адміністратор", position: "Головний адміністратор" }
+            ]
         };
 
-        // БАЗА ДАННЫХ С АВТОСОХРАНЕНИЕМ
-        const DB = {
-            // Получить дела для органа
-            getCases: (agency) => {
-                try {
-                    const data = localStorage.getItem(`erdr_cases_${agency}`);
-                    if (!data) {
-                        // Если данных нет - создаем начальные данные
-                        const initialData = this.getInitialData(agency);
-                        this.saveCases(agency, initialData);
-                        return initialData;
-                    }
-                    return JSON.parse(data);
-                } catch (e) {
-                    console.error('Помилка завантаження даних:', e);
-                    return this.getInitialData(agency);
-                }
-            },
-
-            // Сохранить дела
-            saveCases: (agency, cases) => {
-                try {
-                    localStorage.setItem(`erdr_cases_${agency}`, JSON.stringify(cases));
-                    localStorage.setItem('erdr_last_save', new Date().toISOString());
-                    this.updateDataStatus();
-                    return true;
-                } catch (e) {
-                    console.error('Помилка збереження даних:', e);
-                    alert('❌ Помилка збереження даних!');
-                    return false;
-                }
-            },
-
-            // Начальные данные для каждого органа
-            getInitialData: (agency) => {
-                const baseData = {
-                    sbu: [
-                        {
-                            id: '1',
-                            number: '001/2024',
-                            date: '2024-01-15',
-                            type: 'Кримінальне правопорушення',
-                            status: 'В розслідуванні',
-                            description: 'Розслідування корупційних дій у державному органі',
-                            investigator: 'Іванов І.І.',
-                            assignedJudge: 'Петренко П.П.',
-                            assignedProsecutor: 'Сидоров С.С.',
-                            investigationHead: 'Коваленко К.К.',
-                            created: new Date().toISOString()
-                        }
-                    ],
-                    npu: [
-                        {
-                            id: '2',
-                            number: '002/2024',
-                            date: '2024-01-20',
-                            type: 'Кіберзлочинність',
-                            status: 'В розслідуванні',
-                            description: 'Розслідування кібератаки на банківську систему',
-                            investigator: 'Петров П.П.',
-                            assignedJudge: 'Ковальчук К.К.',
-                            assignedProsecutor: 'Мельник М.М.',
-                            created: new Date().toISOString()
-                        }
-                    ],
-                    prosecutor: [
-                        {
-                            id: '3',
-                            number: '003/2024',
-                            date: '2024-01-25',
-                            type: 'Корупційний злочин',
-                            status: 'Завершена',
-                            description: 'Зловживання службовим становищем',
-                            investigator: 'Сидоров С.С.',
-                            assignedJudge: 'Шевченко Ш.Ш.',
-                            investigationHead: 'Бондар Б.Б.',
-                            created: new Date().toISOString()
-                        }
-                    ]
-                };
-                return baseData[agency] || [];
-            },
-
-            // Безопасность
-            getSecurity: () => {
-                return JSON.parse(localStorage.getItem('erdr_security') || '{"attempts":0,"blocked":false}');
-            },
-            
-            saveSecurity: (security) => {
-                localStorage.setItem('erdr_security', JSON.stringify(security));
-            },
-
-            // Статистика данных
-            getStats: () => {
-                const stats = {
-                    totalCases: 0,
-                    lastSave: localStorage.getItem('erdr_last_save'),
-                    agencies: {}
-                };
-
-                ['sbu', 'npu', 'prosecutor'].forEach(agency => {
-                    const cases = this.getCases(agency);
-                    stats.agencies[agency] = cases.length;
-                    stats.totalCases += cases.length;
-                });
-
-                return stats;
-            },
-
-            // Обновить статус данных
-            updateDataStatus: () => {
-                const stats = this.getStats();
-                const statusElement = document.getElementById('dataStatus');
-                if (statusElement) {
-                    statusElement.innerHTML = 
-                        `💾 Дані збережено: ${stats.totalCases} справ | ` +
-                        `СБУ: ${stats.agencies.sbu} | НПУ: ${stats.agencies.npu} | Прокуратура: ${stats.agencies.prosecutor}`;
-                }
-            },
-
-            // Резервное копирование
-            backupData: () => {
-                const backup = {
-                    timestamp: new Date().toISOString(),
-                    sbu: this.getCases('sbu'),
-                    npu: this.getCases('npu'),
-                    prosecutor: this.getCases('prosecutor')
-                };
-                
-                const dataStr = JSON.stringify(backup, null, 2);
-                const blob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `erdr_backup_${new Date().toISOString().split('T')[0]}.json`;
-                a.click();
-                URL.revokeObjectURL(url);
-                
-                return `Резервну копію збережено: ${backup.sbu.length + backup.npu.length + backup.prosecutor.length} справ`;
-            }
+        // База даних справ
+        let CASES_DATABASE = {
+            gunp: [],
+            sbu: [],
+            prosecutor: []
         };
 
+        let currentAgency = null;
         let currentUser = null;
+        let caseCounter = {
+            gunp: 1,
+            sbu: 1,
+            prosecutor: 1
+        };
+        let caseToDelete = null;
 
-        // ИНИЦИАЛИЗАЦИЯ
-        function init() {
-            const security = DB.getSecurity();
-            loginAttempts = security.attempts || 0;
-            isBlocked = security.blocked || false;
+        function selectAgency(agency) {
+            currentAgency = agency;
+            const agencyData = getAgencyData(agency);
             
-            if (isBlocked) {
-                blockSystem();
-            } else {
-                updateSecurityWarning();
-            }
+            document.getElementById('modal-agency-name').textContent = agencyData.fullName;
+            document.getElementById('modal-agency-desc').textContent = `Вхід до системи ${agencyData.name}`;
+            document.getElementById('modal-avatar').textContent = agencyData.icon;
+            document.getElementById('modal-avatar').style.background = agencyData.color;
             
-            // Обновляем статус данных
-            DB.updateDataStatus();
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
             
-            // Автосохранение каждые 30 секунд
-            setInterval(() => {
-                if (currentUser) {
-                    DB.updateDataStatus();
-                }
-            }, 30000);
+            // Показуємо паролі для поточного відомства
+            showPasswordsForAgency(agency);
+            
+            document.getElementById('loginModal').style.display = 'flex';
         }
 
-        // ФУНКЦИЯ ВХОДА С ЗАЩИТОЙ
+        function showPasswordsForAgency(agency) {
+            const passwordList = document.getElementById('passwordList');
+            const users = USERS[agency];
+            
+            passwordList.innerHTML = users.map(user => `
+                <div class="password-item">
+                    <span>${user.username}</span>
+                    <span>${user.password}</span>
+                </div>
+            `).join('');
+        }
+
+        function getAgencyData(agency) {
+            const agencies = {
+                gunp: { name: "ГУНП", fullName: "Головне управління Національної поліції", color: "#1e40af", icon: "👮‍♂️" },
+                sbu: { name: "СБУ", fullName: "Служба Безпеки України", color: "#dc2626", icon: "🕵️‍♂️" },
+                prosecutor: { name: "Прокуратура", fullName: "Генеральна прокуратура України", color: "#7c2d12", icon: "⚖️" },
+                admin: { name: "Адмін-панель", fullName: "Панель адміністратора системи", color: "#7e22ce", icon: "👨‍💼" }
+            };
+            return agencies[agency];
+        }
+
         function login() {
-            if (isBlocked) {
-                alert('🚫 Система заблокована! Спробуйте пізніше.');
-                return;
-            }
-
-            const agency = document.getElementById('agencySelect').value;
-            const userName = document.getElementById('userName').value.trim();
-            const password = document.getElementById('password').value;
-
-            if (!userName) {
-                alert('Введіть ПІБ співробітника');
-                return;
-            }
-
-            if (!password) {
-                alert('Введіть пароль');
-                return;
-            }
-
-            // ПРОВЕРКА ПАРОЛЯ
-            if (PASSWORDS[agency].includes(password)) {
-                // УСПЕШНЫЙ ВХОД
-                loginAttempts = 0;
-                isBlocked = false;
-                DB.saveSecurity({ attempts: loginAttempts, blocked: isBlocked });
-                
-                currentUser = {
-                    agency: agency,
-                    user: userName,
-                    userId: generateUserId(agency, password)
-                };
-                
-                updateUI();
-                loadCases();
-                document.getElementById('securityWarning').style.display = 'none';
-                
-            } else {
-                // НЕУДАЧНАЯ ПОПЫТКА
-                loginAttempts++;
-                DB.saveSecurity({ attempts: loginAttempts, blocked: isBlocked });
-                
-                if (loginAttempts >= MAX_ATTEMPTS) {
-                    blockSystem();
-                    alert('🚫 Система заблокована на 5 хвилин!');
-                } else {
-                    updateSecurityWarning();
-                    alert(`❌ Невірний пароль! Залишилось спроб: ${MAX_ATTEMPTS - loginAttempts}`);
-                }
-            }
-        }
-
-        function blockSystem() {
-            isBlocked = true;
-            DB.saveSecurity({ attempts: loginAttempts, blocked: isBlocked });
-            document.getElementById('securityWarning').style.display = 'block';
-            document.getElementById('securityWarning').innerHTML = '🚫 Система заблокована! Спробуйте через 5 хвилин.';
-            document.querySelector('#loginSection .btn-primary').disabled = true;
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
             
-            // РАЗБЛОКИРОВКА ЧЕРЕЗ 5 МИНУТ
-            setTimeout(() => {
-                isBlocked = false;
-                loginAttempts = 0;
-                DB.saveSecurity({ attempts: 0, blocked: false });
-                document.getElementById('securityWarning').style.display = 'none';
-                document.querySelector('#loginSection .btn-primary').disabled = false;
-            }, 5 * 60 * 1000);
-        }
-
-        function updateSecurityWarning() {
-            if (loginAttempts > 0) {
-                document.getElementById('securityWarning').style.display = 'block';
-                document.getElementById('attemptsCount').textContent = MAX_ATTEMPTS - loginAttempts;
+            if (!username || !password) {
+                alert('Будь ласка, заповніть всі поля!');
+                return;
+            }
+            
+            const user = USERS[currentAgency].find(u => 
+                u.username === username && u.password === password
+            );
+            
+            if (user) {
+                currentUser = user;
+                closeLoginModal();
+                showAgencyPanel();
+                loadCasesForAgency();
             } else {
-                document.getElementById('securityWarning').style.display = 'none';
+                alert('Невірний логін або пароль! Використовуйте паролі зі списку нижче.');
             }
         }
 
-        function generateUserId(agency, password) {
-            const index = PASSWORDS[agency].indexOf(password) + 1;
-            const prefixes = { sbu: 'SBU', npu: 'NPU', prosecutor: 'PROC' };
-            return `${prefixes[agency]}${index.toString().padStart(2, '0')}`;
+        function closeLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        function togglePassword() {
+            const passwordInput = document.getElementById('loginPassword');
+            const toggleButton = document.querySelector('.toggle-password');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.textContent = '🔒';
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.textContent = '👁️';
+            }
+        }
+
+        function toggleProsecutorPassword() {
+            const passwordInput = document.getElementById('prosecutorPassword');
+            const toggleButton = document.querySelectorAll('.toggle-password')[1];
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.textContent = '🔒';
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.textContent = '👁️';
+            }
+        }
+
+        function showAgencyPanel() {
+            document.querySelectorAll('.admin-panel').forEach(panel => {
+                panel.style.display = 'none';
+            });
+            
+            document.getElementById(`${currentAgency}-panel`).style.display = 'block';
+        }
+
+        function showAdminTab(tabName) {
+            // Приховуємо всі вкладки
+            document.querySelectorAll('.admin-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Видаляємо активний клас з усіх кнопок
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Показуємо обрану вкладку
+            document.getElementById(`admin-${tabName}`).style.display = 'block';
+            
+            // Додаємо активний клас до поточної кнопки
+            event.target.classList.add('active');
         }
 
         function logout() {
+            currentAgency = null;
             currentUser = null;
-            updateUI();
-            document.getElementById('casesList').innerHTML = '';
-        }
-
-        function updateUI() {
-            if (currentUser) {
-                document.getElementById('loginSection').style.display = 'none';
-                document.getElementById('userSection').style.display = 'block';
-                document.getElementById('userDetails').innerHTML = `
-                    <strong>Орган:</strong> ${currentUser.agency.toUpperCase()}<br>
-                    <strong>Користувач:</strong> ${currentUser.user}<br>
-                    <strong>ID:</strong> ${currentUser.userId}
-                `;
-            } else {
-                document.getElementById('loginSection').style.display = 'block';
-                document.getElementById('userSection').style.display = 'none';
-            }
-        }
-
-        function loadCases() {
-            const cases = DB.getCases(currentUser.agency);
-            renderCases(cases);
-        }
-
-        function renderCases(cases) {
-            const container = document.getElementById('casesList');
-            
-            if (cases.length === 0) {
-                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">Немає справ для відображення</div>';
-                return;
-            }
-
-            let html = '';
-            cases.forEach(caseItem => {
-                const hasPersonnel = caseItem.assignedJudge || caseItem.assignedProsecutor || 
-                                   caseItem.investigationHead || caseItem.additionalInvestigator;
-                
-                html += `
-                    <div class="case-item">
-                        <div style="display: flex; justify-content: space-between; align-items: start;">
-                            <div style="font-weight: bold; color: #2563eb; font-size: 16px;">📁 Справа №${caseItem.number}</div>
-                            <div style="background: #e5e7eb; padding: 2px 8px; border-radius: 3px; font-size: 12px;">${caseItem.status}</div>
-                        </div>
-                        <div style="color: #666; margin: 8px 0;">📅 ${caseItem.date} • 🎯 ${caseItem.type}</div>
-                        <div style="margin-bottom: 10px;">${caseItem.description}</div>
-                        <div style="color: #666; font-size: 14px;">👤 Слідчий: ${caseItem.investigator}</div>
-                        
-                        ${hasPersonnel ? `
-                        <div class="personnel-section">
-                            <div style="font-weight: bold; margin-bottom: 5px; font-size: 14px;">👥 Прикріплений персонал:</div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px;">
-                                ${caseItem.assignedJudge ? `<div><strong>⚖️ Суддя:</strong> ${caseItem.assignedJudge}</div>` : ''}
-                                ${caseItem.assignedProsecutor ? `<div><strong>👨‍⚖️ Прокурор:</strong> ${caseItem.assignedProsecutor}</div>` : ''}
-                                ${caseItem.investigationHead ? `<div><strong>🛡️ Керівник:</strong> ${caseItem.investigationHead}</div>` : ''}
-                                ${caseItem.additionalInvestigator ? `<div><strong>🔍 Слідчий:</strong> ${caseItem.additionalInvestigator}</div>` : ''}
-                            </div>
-                        </div>
-                        ` : ''}
-                        
-                        <button class="btn btn-danger" onclick="deleteCase('${caseItem.id}')" style="margin-top: 10px; font-size: 12px;">🗑️ Видалити</button>
-                    </div>
-                `;
+            document.querySelectorAll('.admin-panel').forEach(panel => {
+                panel.style.display = 'none';
             });
-            
-            container.innerHTML = html;
-            DB.updateDataStatus();
         }
 
-        function addCase() {
-            document.getElementById('modal').style.display = 'flex';
-            document.getElementById('caseNumber').value = '';
-            document.getElementById('caseDate').value = new Date().toISOString().split('T')[0];
-            document.getElementById('crimeType').value = 'Кримінальне';
-            document.getElementById('caseStatus').value = 'Нова';
+        // Функції для роботи з справами
+        function showAddCaseModal() {
+            document.getElementById('addCaseModal').style.display = 'flex';
+            // Очищаємо поля форми
+            document.getElementById('caseTitle').value = '';
             document.getElementById('caseDescription').value = '';
-            document.getElementById('assignedJudge').value = '';
-            document.getElementById('assignedProsecutor').value = '';
-            document.getElementById('investigationHead').value = '';
-            document.getElementById('additionalInvestigator').value = '';
+            document.getElementById('caseNumber').value = '';
+            document.getElementById('caseCategory').value = 'criminal';
+            document.getElementById('casePriority').value = 'medium';
         }
 
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
+        function closeAddCaseModal() {
+            document.getElementById('addCaseModal').style.display = 'none';
         }
 
-        function saveCase(event) {
-            event.preventDefault();
+        function addNewCase() {
+            const title = document.getElementById('caseTitle').value;
+            const description = document.getElementById('caseDescription').value;
+            const number = document.getElementById('caseNumber').value;
+            const category = document.getElementById('caseCategory').value;
+            const priority = document.getElementById('casePriority').value;
             
-            const caseData = {
-                id: Date.now().toString(),
-                number: document.getElementById('caseNumber').value,
-                date: document.getElementById('caseDate').value,
-                type: document.getElementById('crimeType').value,
-                status: document.getElementById('caseStatus').value,
-                description: document.getElementById('caseDescription').value,
-                investigator: currentUser.user,
-                // ПЕРСОНАЛ
-                assignedJudge: document.getElementById('assignedJudge').value.trim(),
-                assignedProsecutor: document.getElementById('assignedProsecutor').value.trim(),
-                investigationHead: document.getElementById('investigationHead').value.trim(),
-                additionalInvestigator: document.getElementById('additionalInvestigator').value.trim(),
-                created: new Date().toISOString()
-            };
-
-            const cases = DB.getCases(currentUser.agency);
-            cases.push(caseData);
-            
-            if (DB.saveCases(currentUser.agency, cases)) {
-                closeModal();
-                loadCases();
-            }
-        }
-
-        function deleteCase(id) {
-            if (!confirm('🗑️ Видалити цю справу?')) return;
-            
-            const cases = DB.getCases(currentUser.agency);
-            const newCases = cases.filter(c => c.id !== id);
-            
-            if (DB.saveCases(currentUser.agency, newCases)) {
-                loadCases();
-            }
-        }
-
-        function searchCases() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const cases = DB.getCases(currentUser.agency);
-            
-            if (!query) {
-                renderCases(cases);
+            if (!title || !number) {
+                alert('Будь ласка, заповніть обов\'язкові поля: Назва та Номер справи!');
                 return;
             }
-
-            const filtered = cases.filter(caseItem => 
-                caseItem.number.toLowerCase().includes(query) ||
-                caseItem.description.toLowerCase().includes(query) ||
-                caseItem.type.toLowerCase().includes(query) ||
-                caseItem.investigator.toLowerCase().includes(query) ||
-                (caseItem.assignedJudge && caseItem.assignedJudge.toLowerCase().includes(query)) ||
-                (caseItem.assignedProsecutor && caseItem.assignedProsecutor.toLowerCase().includes(query))
-            );
-
-            renderCases(filtered);
+            
+            const newCase = {
+                id: Date.now(),
+                number: number,
+                title: title,
+                description: description,
+                category: category,
+                priority: priority,
+                status: 'new',
+                createdDate: new Date().toLocaleDateString('uk-UA'),
+                createdBy: currentUser.name,
+                responsible: currentUser.name,
+                agency: currentAgency
+            };
+            
+            CASES_DATABASE[currentAgency].push(newCase);
+            updateCaseCounter(currentAgency);
+            loadCasesForAgency();
+            closeAddCaseModal();
+            
+            alert(`Справа "${title}" успішно додана!`);
         }
 
-        function clearSearch() {
-            document.getElementById('searchInput').value = '';
-            if (currentUser) {
-                loadCases();
+        function loadCasesForAgency() {
+            if (!currentAgency || currentAgency === 'admin') return;
+            
+            const cases = CASES_DATABASE[currentAgency];
+            const tableBody = document.getElementById(`${currentAgency}-cases-table`);
+            
+            tableBody.innerHTML = cases.map(caseItem => `
+                <tr>
+                    <td>${caseItem.number}</td>
+                    <td>${caseItem.title}</td>
+                    <td><span class="badge case-status-${caseItem.status}">${getStatusText(caseItem.status)}</span></td>
+                    <td>${caseItem.createdDate}</td>
+                    <td>${caseItem.responsible}</td>
+                    <td class="case-actions">
+                        <button class="btn btn-primary" onclick="viewCase(${caseItem.id})">👁️ Перегляд</button>
+                        ${currentAgency === 'prosecutor' ? 
+                          `<button class="btn btn-danger" onclick="requestCaseDeletion(${caseItem.id})">🗑️ Видалити</button>` : 
+                          `<button class="btn" disabled title="Тільки прокуратура може видаляти справи">🗑️ Видалити</button>`
+                        }
+                    </td>
+                </tr>
+            `).join('');
+            
+            updateStatistics();
+        }
+
+        function getStatusText(status) {
+            const statuses = {
+                'new': 'Нова',
+                'in-progress': 'В роботі',
+                'completed': 'Завершена',
+                'closed': 'Закрита'
+            };
+            return statuses[status] || status;
+        }
+
+        function updateCaseCounter(agency) {
+            caseCounter[agency]++;
+        }
+
+        function updateStatistics() {
+            if (!currentAgency) return;
+            
+            const cases = CASES_DATABASE[currentAgency];
+            const totalCases = cases.length;
+            const activeCases = cases.filter(c => c.status === 'new' || c.status === 'in-progress').length;
+            const criticalCases = cases.filter(c => c.priority === 'critical').length;
+            
+            document.getElementById(`${currentAgency}-total-cases`).textContent = totalCases;
+            document.getElementById(`${currentAgency}-active-cases`).textContent = activeCases;
+            document.getElementById(`${currentAgency}-critical-cases`).textContent = criticalCases;
+        }
+
+        function viewCase(caseId) {
+            const caseItem = CASES_DATABASE[currentAgency].find(c => c.id === caseId);
+            if (caseItem) {
+                alert(`Перегляд справи:\n\nНомер: ${caseItem.number}\nНазва: ${caseItem.title}\nОпис: ${caseItem.description}\nСтатус: ${getStatusText(caseItem.status)}\nПріоритет: ${caseItem.priority}\nВідповідальний: ${caseItem.responsible}`);
             }
         }
 
-        function backupData() {
-            const message = DB.backupData();
-            alert(`✅ ${message}`);
+        function requestCaseDeletion(caseId) {
+            if (currentAgency !== 'prosecutor') {
+                alert('Помилка доступу! Тільки прокуратура може видаляти справи.');
+                return;
+            }
+            
+            const caseItem = CASES_DATABASE[currentAgency].find(c => c.id === caseId);
+            if (!caseItem) return;
+            
+            caseToDelete = caseId;
+            
+            // Заповнюємо інформацію про справу
+            document.getElementById('caseToDeleteInfo').innerHTML = `
+                <h4>📋 Інформація про справу:</h4>
+                <p><strong>Номер:</strong> ${caseItem.number}</p>
+                <p><strong>Назва:</strong> ${caseItem.title}</p>
+                <p><strong>Створена:</strong> ${caseItem.createdDate}</p>
+                <p><strong>Відповідальний:</strong> ${caseItem.responsible}</p>
+            `;
+            
+            // Очищаємо поля підтвердження
+            document.getElementById('prosecutorUsername').value = '';
+            document.getElementById('prosecutorPassword').value = '';
+            
+            document.getElementById('prosecutorConfirmModal').style.display = 'flex';
         }
 
-        function showStats() {
-            const stats = DB.getStats();
-            alert(
-                `📊 Статистика системи:\n\n` +
-                `Всього справ: ${stats.totalCases}\n` +
-                `СБУ: ${stats.agencies.sbu} справ\n` +
-                `НПУ: ${stats.agencies.npu} справ\n` +
-                `Прокуратура: ${stats.agencies.prosecutor} справ\n` +
-                `Останнє збереження: ${stats.lastSave ? new Date(stats.lastSave).toLocaleString() : 'Немає'}`
+        function closeProsecutorConfirmModal() {
+            document.getElementById('prosecutorConfirmModal').style.display = 'none';
+            caseToDelete = null;
+        }
+
+        function confirmCaseDeletion() {
+            const username = document.getElementById('prosecutorUsername').value;
+            const password = document.getElementById('prosecutorPassword').value;
+            
+            if (!username || !password) {
+                alert('Будь ласка, введіть логін та пароль прокурора для підтвердження!');
+                return;
+            }
+            
+            // Перевіряємо чи це дійсно прокурор
+            const prosecutor = USERS.prosecutor.find(u => 
+                u.username === username && u.password === password
             );
+            
+            if (!prosecutor) {
+                alert('Невірний логін або пароль прокурора! Видалення скасовано.');
+                return;
+            }
+            
+            // Видаляємо справу
+            CASES_DATABASE[currentAgency] = CASES_DATABASE[currentAgency].filter(c => c.id !== caseToDelete);
+            loadCasesForAgency();
+            closeProsecutorConfirmModal();
+            
+            alert(`Справу успішно видалено!\nПідтверджено прокурором: ${prosecutor.name}`);
         }
 
-        // ЗАГРУЗКА ПРИ СТАРТЕ
-        document.addEventListener('DOMContentLoaded', function() {
-            init();
+        // Додаємо обробник для клавіші Enter
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && document.getElementById('loginModal').style.display === 'flex') {
+                login();
+            }
         });
+
+        // Ініціалізація деяких тестових даних
+        function initializeTestData() {
+            // Додаємо кілька тестових справ для кожного відомства
+            CASES_DATABASE.gunp.push({
+                id: 1,
+                number: "210/2024",
+                title: "Розкрадання коштів бюджету",
+                description: "Справа про розкрадання коштів місцевого бюджету",
+                category: "criminal",
+                priority: "high",
+                status: "in-progress",
+                createdDate: "15.01.2024",
+                createdBy: "Коваленко І.П.",
+                responsible: "Петренко О.В.",
+                agency: "gunp"
+            });
+
+            CASES_DATABASE.sbu.push({
+                id: 2,
+                number: "СБУ-45/2024",
+                title: "Контррозвідувальна операція",
+                description: "Операція з виявлення іноземних агентів",
+                category: "operational",
+                priority: "critical",
+                status: "in-progress",
+                createdDate: "14.01.2024",
+                createdBy: "Мельник А.В.",
+                responsible: "Ковальчук С.М.",
+                agency: "sbu"
+            });
+
+            CASES_DATABASE.prosecutor.push({
+                id: 3,
+                number: "П-789/2024",
+                title: "Нагляд за розслідуванням",
+                description: "Нагляд за дотриманням закону при розслідуванні",
+                category: "supervision",
+                priority: "medium",
+                status: "new",
+                createdDate: "16.01.2024",
+                createdBy: "Віскар М.М.",
+                responsible: "Кулебяка А.А.",
+                agency: "prosecutor"
+            });
+        }
+
+        // Ініціалізація при завантаженні сторінки
+        window.onload = function() {
+            initializeTestData();
+            console.log('🛡️ ЄРДР PRO System Initialized');
+            console.log('24 unique passwords + case management system loaded successfully');
+        };
     </script>
 </body>
 </html>
