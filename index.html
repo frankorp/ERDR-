@@ -1392,11 +1392,54 @@
             }, 3000);
         }
 
-        // 🔄 ИНТЕГРАЦИЯ ЛОГИРОВАНИЯ
+        // 🔄 ОСНОВНЫЕ ФУНКЦИИ СИСТЕМЫ
+
+        function selectAgency(agency) {
+            currentAgency = agency;
+            const agencyData = getAgencyData(agency);
+            
+            document.getElementById('modal-agency-name').textContent = agencyData.fullName;
+            document.getElementById('modal-agency-desc').textContent = `Вхід до системи ${agencyData.name}`;
+            document.getElementById('modal-avatar').textContent = agencyData.icon;
+            document.getElementById('modal-avatar').style.background = agencyData.color;
+            
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+            
+            showPasswordsForAgency(agency);
+            document.getElementById('loginModal').style.display = 'flex';
+        }
+
+        function showPasswordsForAgency(agency) {
+            const passwordList = document.getElementById('passwordList');
+            const users = USERS[agency];
+            
+            passwordList.innerHTML = users.map(user => `
+                <div class="password-item">
+                    <span>${user.username}</span>
+                    <span>${user.password}</span>
+                </div>
+            `).join('');
+        }
+
+        function getAgencyData(agency) {
+            const agencies = {
+                gunp: { name: "ГУНП", fullName: "Головне управління Національної поліції", color: "#1e40af", icon: "👮‍♂️" },
+                sbu: { name: "СБУ", fullName: "Служба Безпеки України", color: "#dc2626", icon: "🕵️‍♂️" },
+                prosecutor: { name: "Прокуратура", fullName: "Генеральна прокуратура України", color: "#7c2d12", icon: "⚖️" },
+                admin: { name: "Адмін-панель", fullName: "Панель адміністратора системи", color: "#7e22ce", icon: "👨‍💼" }
+            };
+            return agencies[agency];
+        }
 
         function login() {
             const username = document.getElementById('loginUsername').value;
             const password = document.getElementById('loginPassword').value;
+            
+            if (!username || !password) {
+                alert('Будь ласка, заповніть всі поля!');
+                return;
+            }
             
             const user = USERS[currentAgency].find(u => 
                 u.username === username && u.password === password
@@ -1422,7 +1465,69 @@
                     agency: currentAgency
                 });
                 
-                alert('Невірний логін або пароль!');
+                alert('Невірний логін або пароль! Використовуйте паролі зі списку нижче.');
+            }
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        function togglePassword() {
+            const passwordInput = document.getElementById('loginPassword');
+            const toggleButton = document.querySelector('.toggle-password');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.textContent = '🔒';
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.textContent = '👁️';
+            }
+        }
+
+        function toggleProsecutorPassword() {
+            const passwordInput = document.getElementById('prosecutorPassword');
+            const toggleButtons = document.querySelectorAll('.toggle-password');
+            const toggleButton = toggleButtons[toggleButtons.length - 1];
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.textContent = '🔒';
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.textContent = '👁️';
+            }
+        }
+
+        function showAgencyPanel() {
+            document.querySelectorAll('.admin-panel').forEach(panel => {
+                panel.style.display = 'none';
+            });
+            
+            document.getElementById(`${currentAgency}-panel`).style.display = 'block';
+        }
+
+        function showAdminTab(tabName) {
+            // Приховуємо всі вкладки
+            document.querySelectorAll('.admin-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Видаляємо активний клас з усіх кнопок
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Показуємо обрану вкладку
+            document.getElementById(`admin-${tabName}`).style.display = 'block';
+            
+            // Додаємо активний клас до поточної кнопки
+            event.target.classList.add('active');
+
+            // Якщо це вкладка логів - оновлюємо логи
+            if (tabName === 'logs') {
+                renderLogs();
             }
         }
 
@@ -1438,10 +1543,24 @@
             showNotification('До побачення!');
         }
 
+        // Функції для роботи з справами
+        function showAddCaseModal() {
+            document.getElementById('addCaseModal').style.display = 'flex';
+            document.getElementById('caseTitle').value = '';
+            document.getElementById('caseDescription').value = '';
+            document.getElementById('caseNumber').value = '';
+            document.getElementById('caseCategory').value = 'criminal';
+            document.getElementById('casePriority').value = 'medium';
+        }
+
+        function closeAddCaseModal() {
+            document.getElementById('addCaseModal').style.display = 'none';
+        }
+
         function addNewCase() {
             const title = document.getElementById('caseTitle').value;
-            const number = document.getElementById('caseNumber').value;
             const description = document.getElementById('caseDescription').value;
+            const number = document.getElementById('caseNumber').value;
             const category = document.getElementById('caseCategory').value;
             const priority = document.getElementById('casePriority').value;
             
@@ -1479,12 +1598,131 @@
             showNotification(`Справа "${title}" успішно створена!`, 'success');
         }
 
-        // Остальные функции (selectAgency, showAddCaseModal, и т.д.) остаются без изменений
-        // ...
+        function loadCasesForAgency() {
+            if (!currentAgency || currentAgency === 'admin') return;
+            
+            const cases = CASES_DATABASE[currentAgency];
+            const tableBody = document.getElementById(`${currentAgency}-cases-table`);
+            
+            tableBody.innerHTML = cases.map(caseItem => `
+                <tr>
+                    <td>${caseItem.number}</td>
+                    <td>${caseItem.title}</td>
+                    <td><span class="badge case-status-${caseItem.status}">${getStatusText(caseItem.status)}</span></td>
+                    <td>${caseItem.createdDate}</td>
+                    <td>${caseItem.responsible}</td>
+                    <td class="case-actions">
+                        <button class="btn btn-primary" onclick="viewCase(${caseItem.id})">👁️ Перегляд</button>
+                        ${currentAgency === 'prosecutor' ? 
+                          `<button class="btn btn-danger" onclick="requestCaseDeletion(${caseItem.id})">🗑️ Видалити</button>` : 
+                          `<button class="btn" disabled title="Тільки прокуратура може видаляти справи">🗑️ Видалити</button>`
+                        }
+                    </td>
+                </tr>
+            `).join('');
+            
+            updateStatistics();
+        }
 
-        // Инициализация
+        function getStatusText(status) {
+            const statuses = {
+                'new': 'Нова',
+                'in-progress': 'В роботі',
+                'completed': 'Завершена',
+                'closed': 'Закрита'
+            };
+            return statuses[status] || status;
+        }
+
+        function updateStatistics() {
+            if (!currentAgency) return;
+            
+            const cases = CASES_DATABASE[currentAgency];
+            const totalCases = cases.length;
+            const activeCases = cases.filter(c => c.status === 'new' || c.status === 'in-progress').length;
+            const criticalCases = cases.filter(c => c.priority === 'critical').length;
+            
+            document.getElementById(`${currentAgency}-total-cases`).textContent = totalCases;
+            document.getElementById(`${currentAgency}-active-cases`).textContent = activeCases;
+            document.getElementById(`${currentAgency}-critical-cases`).textContent = criticalCases;
+        }
+
+        function viewCase(caseId) {
+            const caseItem = CASES_DATABASE[currentAgency].find(c => c.id === caseId);
+            if (caseItem) {
+                logAction(LOG_TYPES.VIEW_CASE, 'Перегляд справи', {
+                    caseNumber: caseItem.number,
+                    caseTitle: caseItem.title
+                }, currentUser);
+                
+                alert(`Перегляд справи:\n\nНомер: ${caseItem.number}\nНазва: ${caseItem.title}\nОпис: ${caseItem.description}\nСтатус: ${getStatusText(caseItem.status)}\nПріоритет: ${caseItem.priority}\nВідповідальний: ${caseItem.responsible}`);
+            }
+        }
+
+        function requestCaseDeletion(caseId) {
+            if (currentAgency !== 'prosecutor') {
+                alert('Помилка доступу! Тільки прокуратура може видаляти справи.');
+                return;
+            }
+            
+            const caseItem = CASES_DATABASE[currentAgency].find(c => c.id === caseId);
+            if (!caseItem) return;
+            
+            caseToDelete = caseId;
+            
+            document.getElementById('caseToDeleteInfo').innerHTML = `
+                <h4>📋 Інформація про справу:</h4>
+                <p><strong>Номер:</strong> ${caseItem.number}</p>
+                <p><strong>Назва:</strong> ${caseItem.title}</p>
+                <p><strong>Створена:</strong> ${caseItem.createdDate}</p>
+                <p><strong>Відповідальний:</strong> ${caseItem.responsible}</p>
+            `;
+            
+            document.getElementById('prosecutorUsername').value = '';
+            document.getElementById('prosecutorPassword').value = '';
+            
+            document.getElementById('prosecutorConfirmModal').style.display = 'flex';
+        }
+
+        function closeProsecutorConfirmModal() {
+            document.getElementById('prosecutorConfirmModal').style.display = 'none';
+            caseToDelete = null;
+        }
+
+        function confirmCaseDeletion() {
+            const username = document.getElementById('prosecutorUsername').value;
+            const password = document.getElementById('prosecutorPassword').value;
+            
+            if (!username || !password) {
+                alert('Будь ласка, введіть логін та пароль прокурора для підтвердження!');
+                return;
+            }
+            
+            const prosecutor = USERS.prosecutor.find(u => 
+                u.username === username && u.password === password
+            );
+            
+            if (!prosecutor) {
+                alert('Невірний логін або пароль прокурора! Видалення скасовано.');
+                return;
+            }
+            
+            const caseItem = CASES_DATABASE[currentAgency].find(c => c.id === caseToDelete);
+            CASES_DATABASE[currentAgency] = CASES_DATABASE[currentAgency].filter(c => c.id !== caseToDelete);
+            loadCasesForAgency();
+            closeProsecutorConfirmModal();
+            
+            logAction(LOG_TYPES.DELETE_CASE, 'Видалення справи', {
+                caseNumber: caseItem.number,
+                caseTitle: caseItem.title,
+                confirmedBy: prosecutor.name
+            }, currentUser);
+            
+            showNotification(`Справу успішно видалено!\nПідтверджено прокурором: ${prosecutor.name}`);
+        }
+
+        // Ініціалізація тестових даних
         function initializeTestData() {
-            // Тестовые данные для дел
             CASES_DATABASE.gunp.push({
                 id: 1,
                 number: "210/2024",
@@ -1538,6 +1776,7 @@
             });
         }
 
+        // Запуск при завантаженні
         window.onload = function() {
             initializeTestData();
             initializeLoggingSystem();
@@ -1545,7 +1784,12 @@
             console.log('24 unique passwords + logging system loaded');
         };
 
-        // Остальной код из версии 2.0...
+        // Додаємо обробник для клавіші Enter
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && document.getElementById('loginModal').style.display === 'flex') {
+                login();
+            }
+        });
     </script>
 </body>
 </html>
