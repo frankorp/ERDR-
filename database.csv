@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>База с фабулой и экспертизами</title>
+</head>
+<body>
+<h1>База данных</h1>
+<div id="table-container"></div>
+
+<script>
+function renderTable(data) {
+    let html = "<table border='1' cellpadding='5' cellspacing='0'>";
+    
+    // Заголовки
+    html += "<tr>";
+    data[0].forEach(col => html += `<th>${col}</th>`);
+    html += "</tr>";
+    
+    // Данные
+    for (let i = 1; i < data.length; i++) {
+        if(data[i].length < 2) continue;
+        html += "<tr>";
+        data[i].forEach(col => html += `<td>${col}</td>`);
+        html += "</tr>";
+    }
+    
+    html += "</table>";
+    document.getElementById("table-container").innerHTML = html;
+}
+
+// Проверяем, есть ли данные в localStorage
+let storedData = localStorage.getItem("dbData");
+
+if(storedData) {
+    // Если есть — парсим и отображаем
+    renderTable(JSON.parse(storedData));
+} else {
+    // Иначе загружаем CSV
+    fetch("data.csv")
+      .then(res => res.text())
+      .then(text => {
+          const rows = text.split("\n").map(r => r.split(","));
+          
+          // Сохраняем в localStorage
+          localStorage.setItem("dbData", JSON.stringify(rows));
+          
+          renderTable(rows);
+      })
+      .catch(err => console.error("Ошибка загрузки CSV:", err));
+}
+</script>
+</body>
+</html>
